@@ -1,7 +1,7 @@
-import { cards } from "./card";
+import { allCards } from "./card";
 
-describe("cards", () => {
-  it("should be 60 cards", () => {
-    expect(cards.length).toBe(60);
+describe("allCards", () => {
+  it("should be 60 allCards", () => {
+    expect(allCards.length).toBe(60);
   });
 });

@@ -3,6 +3,7 @@ import { Card } from "./card";
 import invariant from "tiny-invariant";
 import deepCopy from "deepcopy";
 import { getTurnPlayer } from "./selector";
+import { Board } from "./board";
 
 const changeTurnPlayer = (game: Game): Game => {
   const nextGame = deepCopy(game);
@@ -36,10 +37,38 @@ export const play = (game: Game, card: Card): Game => {
     };
   });
 
-  // TODO: board
+  if (nextGame.board[card.color].deck.length > 0) {
+    const lastPlayedCard =
+      nextGame.board[card.color].deck[
+        nextGame.board[card.color].deck.length - 1
+      ];
+    invariant(
+      lastPlayedCard,
+      "Unexpected state: lastPlayedCard must not be undefined"
+    );
+    if (lastPlayedCard.type === "number") {
+      invariant(
+        card.type === "number",
+        "Playing card type must be number, because last played one is number type."
+      );
+      invariant(
+        lastPlayedCard.number < card.number,
+        "Playing card number must be bigger than last played one."
+      );
+    }
+  }
+
+  const nextBoard: Board = {
+    ...nextGame.board,
+    [card.color]: {
+      ...nextGame.board[card.color],
+      deck: nextGame.board[card.color].deck.concat([card]),
+    },
+  };
 
   return {
     ...changeTurnPlayer(nextGame),
     players: nextPlayers,
+    board: nextBoard,
   };
 };

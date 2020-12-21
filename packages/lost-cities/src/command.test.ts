@@ -27,7 +27,20 @@ describe("play", () => {
       ],
       turnPlayerId: game.players[1]?.id,
       deck: game.deck,
-      board: game.board, // TODO
+      board: {
+        red: { deck: [], discardPile: [] },
+        blue: { deck: [], discardPile: [] },
+        green: { deck: [], discardPile: [] },
+        yellow: { deck: [], discardPile: [] },
+        white: { deck: [], discardPile: [] },
+        // プレイしたカードの色に対応するボード列にカードが追加されていること
+        ...{
+          [game.players[0]?.hands[3]?.color!]: {
+            deck: [game.players[0]?.hands[3]],
+            discardPile: [],
+          },
+        },
+      },
     });
   });
 });

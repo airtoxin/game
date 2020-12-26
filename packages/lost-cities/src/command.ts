@@ -1,74 +1,31 @@
 import { Game } from "./game";
-import { Card } from "./card";
 import invariant from "tiny-invariant";
-import deepCopy from "deepcopy";
-import { getTurnPlayer } from "./selector";
-import { Board } from "./board";
+import { getNextTurnPlayer, getTurnPlayer, PlayableCard } from "./selector";
+import { CardColor } from "./card";
+import produce, { castDraft } from "immer";
 
-const changeTurnPlayer = (game: Game): Game => {
-  const nextGame = deepCopy(game);
-  const index = nextGame.players.findIndex(
-    (p) => p.id === nextGame.turnPlayerId
-  );
-  invariant(index !== -1, "Cannot find index of turnPlayer in players.");
-  const nextIndex = (index + 1) % nextGame.players.length;
-  const nextPlayer = nextGame.players[nextIndex];
-  invariant(nextPlayer, "Invalid index of next turnPlayer.");
+export const play = (game: Game, card: PlayableCard): Game =>
+  produce(game, (draft) => {
+    const turnPlayer = castDraft(getTurnPlayer(draft));
+    turnPlayer.hands = turnPlayer.hands.filter((c) => c.id !== card.id);
+    turnPlayer.playingArea[card.color].push(card);
 
-  return {
-    ...nextGame,
-    turnPlayerId: nextPlayer.id,
-  };
-};
-
-export const play = (game: Game, card: Card): Game => {
-  const nextGame = deepCopy(game);
-  const turnPlayer = getTurnPlayer(nextGame);
-  const cardIndex = turnPlayer.hands.findIndex((c) => c.id === card.id);
-  invariant(
-    cardIndex !== -1,
-    "Cannot find playing card in hand of turnPlayer."
-  );
-  const nextPlayers = nextGame.players.map((p) => {
-    if (p.id !== turnPlayer.id) return p;
-    return {
-      ...p,
-      hands: p.hands.filter((c) => c.id !== card.id),
-    };
+    const nextTurnPlayer = castDraft(getNextTurnPlayer(draft));
+    draft.turnPlayerId = nextTurnPlayer.id;
   });
 
-  if (nextGame.board[card.color].deck.length > 0) {
-    const lastPlayedCard =
-      nextGame.board[card.color].deck[
-        nextGame.board[card.color].deck.length - 1
-      ];
-    invariant(
-      lastPlayedCard,
-      "Unexpected state: lastPlayedCard must not be undefined"
-    );
-    if (lastPlayedCard.type === "number") {
-      invariant(
-        card.type === "number",
-        "Playing card type must be number, because last played one is number type."
-      );
-      invariant(
-        lastPlayedCard.number < card.number,
-        "Playing card number must be bigger than last played one."
-      );
+export const draw = (game: Game, target: CardColor | "deck"): Game =>
+  produce(game, (draft) => {
+    if (target === "deck") {
+      const card = draft.deck.pop();
+      invariant(card, "Deck is empty.");
+      castDraft(getTurnPlayer(draft)).hands.push(card);
+    } else {
+      const card = draft.board[target].discardPile.pop();
+      invariant(card, `discardPile of ${target} is empty.`);
+      castDraft(getTurnPlayer(draft)).hands.push(card);
     }
-  }
 
-  const nextBoard: Board = {
-    ...nextGame.board,
-    [card.color]: {
-      ...nextGame.board[card.color],
-      deck: nextGame.board[card.color].deck.concat([card]),
-    },
-  };
-
-  return {
-    ...changeTurnPlayer(nextGame),
-    players: nextPlayers,
-    board: nextBoard,
-  };
-};
+    const nextTurnPlayer = castDraft(getNextTurnPlayer(draft));
+    draft.turnPlayerId = nextTurnPlayer.id;
+  });

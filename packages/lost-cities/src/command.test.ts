@@ -1,8 +1,42 @@
 import { Mutable } from "type-fest";
 import { Game, setupGame } from "./game";
-import { play } from "./command";
+import { draw, play } from "./command";
 import deepcopy from "deepcopy";
 import { isPlayableCard } from "./selector";
+import { Player, setupPlayer } from "./player";
+import { allCards, Card } from "./card";
+import { setupBoard } from "./board";
+
+const createDefaultContext = () => {
+  const cards = deepcopy(allCards);
+  const playerACard = cards[0]!;
+  const playerBCard = cards[1]!;
+  const deckCards = [cards[2]!, cards[3]!];
+  const playerA: Mutable<Player> = setupPlayer({
+    isBot: false,
+    hands: [playerACard],
+  });
+  const playerB: Mutable<Player> = setupPlayer({
+    isBot: false,
+    hands: [playerBCard],
+  });
+  const game: Mutable<Game> = {
+    players: [playerA, playerB],
+    turnPlayerId: playerA.id,
+    deck: deckCards,
+    board: setupBoard(),
+  };
+
+  return {
+    cards,
+    playerA,
+    playerACard,
+    playerB,
+    playerBCard,
+    deckCards,
+    game,
+  };
+};
 
 describe("play", () => {
   it("should play card", () => {
@@ -40,6 +74,25 @@ describe("play", () => {
         yellow: { discardPile: [] },
         white: { discardPile: [] },
       },
+    });
+  });
+});
+
+describe("draw", () => {
+  it("should draw from target deck or discardPile", () => {
+    const {
+      playerA,
+      playerACard,
+      playerB,
+      game,
+      deckCards,
+    } = createDefaultContext();
+
+    expect(draw(game, "deck")).toEqual({
+      players: [{ ...playerA, hands: [playerACard, deckCards[1]] }, playerB],
+      turnPlayerId: playerB.id,
+      deck: [deckCards[0]],
+      board: game.board,
     });
   });
 });

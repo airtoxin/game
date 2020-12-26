@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "deepcopy": "^2.1.0",
+    "immer": "^8.0.0",
     "nanoid": "^3.1.20",
     "tiny-invariant": "^1.1.0",
     "type-fest": "^0.20.2"

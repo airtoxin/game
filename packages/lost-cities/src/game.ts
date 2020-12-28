@@ -3,14 +3,14 @@ import { allCards, Card, sortCards } from "./card";
 import { shuffle } from "./utils";
 import { Board, setupBoard } from "./board";
 
-export type Game = {
+export type LostCities = {
   readonly players: Player[];
   readonly turnPlayerId: string;
   readonly deck: Card[];
   readonly board: Board;
 };
 
-export const setupGame = (): Game => {
+export const setupGame = (): LostCities => {
   const cards = shuffle(allCards);
 
   const players = [

@@ -1,6 +1,11 @@
 import { Game, setupGame } from "./game";
 import { Mutable } from "type-fest";
-import { getPlayableCards, getTurnPlayer, isPlayableCard } from "./selector";
+import {
+  getPlayableCards,
+  getTurnPlayer,
+  isFinished,
+  isPlayableCard,
+} from "./selector";
 
 describe("getTurnPlayer", () => {
   it("should return turnPlayer object", () => {
@@ -32,5 +37,12 @@ describe("isPlayableCard", () => {
         ...card,
       });
     }
+  });
+});
+
+describe("isFinished", () => {
+  it("should return isFinished false", () => {
+    const game = setupGame();
+    expect(isFinished(game)).toEqual({ finished: false });
   });
 });

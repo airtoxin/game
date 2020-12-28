@@ -2,6 +2,9 @@ import { Game } from "./game";
 import { Player } from "./player";
 import invariant from "tiny-invariant";
 import { Card } from "./card";
+import { play } from "./command";
+import deepcopy from "deepcopy";
+import { maxBy } from "./utils";
 
 export const getTurnPlayer = (game: Game): Player => {
   const turnPlayer = game.players.find((p) => p.id === game.turnPlayerId);
@@ -48,4 +51,63 @@ export const getNextTurnPlayer = (game: Game): Player => {
   const nextPlayer = game.players[nextIndex];
   invariant(nextPlayer, "Invalid index of next turnPlayer.");
   return nextPlayer;
+};
+
+export type PlayerScore = {
+  player: Player;
+  score: number;
+};
+
+export const getScore = (game: Game): readonly [PlayerScore, PlayerScore] => {
+  return game.players.map((player) => {
+    let score = 0;
+
+    for (const [, cards] of Object.entries(player.playingArea)) {
+      if (cards.length === 0) continue;
+
+      let multiplier = 1;
+      let sum = -20; // Start with Expedition Cost
+      if (cards.length >= 8) sum += 20; // 8+ Card Bonus
+
+      for (const card of cards) {
+        if (card.type === "wager") {
+          multiplier += 1;
+        } else {
+          sum += card.number;
+        }
+      }
+
+      score += sum * multiplier;
+    }
+
+    return {
+      player: deepcopy(player),
+      score,
+    } as PlayerScore;
+  }) as [PlayerScore, PlayerScore];
+};
+
+export const isFinished = (
+  game: Game
+):
+  | { finished: false }
+  | { finished: true; draw: true; score: number }
+  | {
+      finished: true;
+      draw: false;
+      winner: PlayerScore;
+      loser: PlayerScore;
+    } => {
+  if (game.deck.length !== 0) return { finished: false };
+
+  const [playerA, playerB] = getScore(game);
+  if (playerA.score === playerB.score)
+    return { finished: true, draw: true, score: playerA.score };
+
+  return {
+    finished: true,
+    draw: false,
+    winner: maxBy([playerA, playerB], (ps) => ps.score),
+    loser: maxBy([playerA, playerB], (ps) => -ps.score),
+  };
 };

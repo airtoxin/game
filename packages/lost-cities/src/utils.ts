@@ -1,3 +1,5 @@
+import invariant from "tiny-invariant";
+
 export const shuffle = <T, Arr extends readonly T[]>(array: Arr): Arr => {
   const arr = array.slice();
   for (let i = arr.length - 1; i > 0; i--) {
@@ -9,4 +11,22 @@ export const shuffle = <T, Arr extends readonly T[]>(array: Arr): Arr => {
     arr[r] = tmp;
   }
   return arr as any;
+};
+
+export const maxBy = <T>(
+  array: readonly T[],
+  valuator: (value: T) => number
+): T => {
+  let score = Number.MIN_VALUE;
+  let result: T | undefined;
+  for (const value of array) {
+    const tv = valuator(value);
+    if (tv >= score) {
+      score = tv;
+      result = value;
+    }
+  }
+
+  invariant(result, "Expect non empty array");
+  return result!;
 };

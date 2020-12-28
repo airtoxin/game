@@ -1,6 +1,6 @@
 import { Player } from "./player";
 
-export type Game = {
+export type Game<S> = {
   name: string;
   playersRange: {
     min: number;
@@ -11,4 +11,5 @@ export type Game = {
   isDraw: boolean;
   winners: Player[];
   losers: Player[];
+  state: S;
 };

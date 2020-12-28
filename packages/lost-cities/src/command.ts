@@ -1,10 +1,10 @@
-import { Game } from "./game";
+import { LostCities } from "./game";
 import invariant from "tiny-invariant";
 import { getNextTurnPlayer, getTurnPlayer, PlayableCard } from "./selector";
 import { CardColor } from "./card";
 import produce, { castDraft } from "immer";
 
-export const play = (game: Game, card: PlayableCard): Game =>
+export const play = (game: LostCities, card: PlayableCard): LostCities =>
   produce(game, (draft) => {
     const turnPlayer = castDraft(getTurnPlayer(draft));
     turnPlayer.hands = turnPlayer.hands.filter((c) => c.id !== card.id);
@@ -14,7 +14,10 @@ export const play = (game: Game, card: PlayableCard): Game =>
     draft.turnPlayerId = nextTurnPlayer.id;
   });
 
-export const draw = (game: Game, target: CardColor | "deck"): Game =>
+export const draw = (
+  game: LostCities,
+  target: CardColor | "deck"
+): LostCities =>
   produce(game, (draft) => {
     if (target === "deck") {
       const card = draft.deck.pop();

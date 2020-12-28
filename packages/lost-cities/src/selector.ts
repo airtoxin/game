@@ -1,12 +1,11 @@
-import { Game } from "./game";
+import { LostCities } from "./game";
 import { Player } from "./player";
 import invariant from "tiny-invariant";
 import { Card } from "./card";
-import { play } from "./command";
 import deepcopy from "deepcopy";
 import { maxBy } from "./utils";
 
-export const getTurnPlayer = (game: Game): Player => {
+export const getTurnPlayer = (game: LostCities): Player => {
   const turnPlayer = game.players.find((p) => p.id === game.turnPlayerId);
   invariant(turnPlayer, "Cannot find turnPlayer in players.");
   return turnPlayer;
@@ -17,13 +16,13 @@ export type PlayableCard = Card & {
 };
 
 export const isPlayableCard = (
-  game: Game,
+  game: LostCities,
   card: Card
 ): PlayableCard | undefined => {
   return getPlayableCards(game).find((c) => c.id === card.id);
 };
 
-export const getPlayableCards = (game: Game): PlayableCard[] => {
+export const getPlayableCards = (game: LostCities): PlayableCard[] => {
   const turnPlayer = game.players.find((p) => p.id === game.turnPlayerId);
   invariant(turnPlayer, "Cannot find turnPlayer in players.");
 
@@ -44,7 +43,7 @@ export const getPlayableCards = (game: Game): PlayableCard[] => {
   return playableCards.map((card) => ({ ...card, __type: "PlayableCard" }));
 };
 
-export const getNextTurnPlayer = (game: Game): Player => {
+export const getNextTurnPlayer = (game: LostCities): Player => {
   const index = game.players.findIndex((p) => p.id === game.turnPlayerId);
   invariant(index !== -1, "Cannot find index of turnPlayer in players.");
   const nextIndex = (index + 1) % game.players.length;
@@ -58,7 +57,9 @@ export type PlayerScore = {
   score: number;
 };
 
-export const getScore = (game: Game): readonly [PlayerScore, PlayerScore] => {
+export const getScore = (
+  game: LostCities
+): readonly [PlayerScore, PlayerScore] => {
   return game.players.map((player) => {
     let score = 0;
 
@@ -88,7 +89,7 @@ export const getScore = (game: Game): readonly [PlayerScore, PlayerScore] => {
 };
 
 export const isFinished = (
-  game: Game
+  game: LostCities
 ):
   | { finished: false }
   | { finished: true; draw: true; score: number }

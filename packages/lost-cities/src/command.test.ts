@@ -1,5 +1,5 @@
 import { Mutable } from "type-fest";
-import { Game, setupGame } from "./game";
+import { LostCities, setupGame } from "./game";
 import { draw, play } from "./command";
 import deepcopy from "deepcopy";
 import { isPlayableCard } from "./selector";
@@ -26,7 +26,7 @@ const createDefaultContext = () => {
   (board.green.discardPile as Mutable<Card[]>) = [cards[6]!];
   (board.yellow.discardPile as Mutable<Card[]>) = [cards[7]!];
   (board.white.discardPile as Mutable<Card[]>) = [cards[8]!];
-  const game: Mutable<Game> = {
+  const game: Mutable<LostCities> = {
     players: [playerA, playerB],
     turnPlayerId: playerA.id,
     deck: deckCards,
@@ -46,7 +46,7 @@ const createDefaultContext = () => {
 
 describe("play", () => {
   it("should play card", () => {
-    const game: Mutable<Game> = setupGame();
+    const game: Mutable<LostCities> = setupGame();
     game.turnPlayerId = game.players[0]?.id!;
     const card = game.players[0]?.hands[3]!;
     expect(play(game, isPlayableCard(game, card)!)).toMatchObject({

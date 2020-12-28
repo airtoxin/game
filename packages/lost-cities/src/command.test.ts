@@ -20,11 +20,17 @@ const createDefaultContext = () => {
     isBot: false,
     hands: [playerBCard],
   });
+  const board = setupBoard();
+  (board.red.discardPile as Mutable<Card[]>) = [cards[4]!];
+  (board.blue.discardPile as Mutable<Card[]>) = [cards[5]!];
+  (board.green.discardPile as Mutable<Card[]>) = [cards[6]!];
+  (board.yellow.discardPile as Mutable<Card[]>) = [cards[7]!];
+  (board.white.discardPile as Mutable<Card[]>) = [cards[8]!];
   const game: Mutable<Game> = {
     players: [playerA, playerB],
     turnPlayerId: playerA.id,
     deck: deckCards,
-    board: setupBoard(),
+    board,
   };
 
   return {
@@ -79,7 +85,7 @@ describe("play", () => {
 });
 
 describe("draw", () => {
-  it("should draw from target deck or discardPile", () => {
+  it("should draw from deck", () => {
     const {
       playerA,
       playerACard,
@@ -93,6 +99,27 @@ describe("draw", () => {
       turnPlayerId: playerB.id,
       deck: [deckCards[0]],
       board: game.board,
+    });
+  });
+
+  it("should draw from discardPile", () => {
+    const { playerA, playerACard, playerB, game } = createDefaultContext();
+    const result = draw(game, "red");
+
+    expect(result).toEqual({
+      board: {
+        ...game.board,
+        red: { discardPile: [] },
+      },
+      deck: game.deck,
+      players: [
+        {
+          ...playerA,
+          hands: [playerACard, game.board.red.discardPile[0]],
+        },
+        playerB,
+      ],
+      turnPlayerId: playerB.id,
     });
   });
 });

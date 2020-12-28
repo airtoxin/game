@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tsc --watch",
+    "build": "tsc --build .",
     "test": "jest"
   },
   "devDependencies": {

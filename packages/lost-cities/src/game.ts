@@ -1,6 +1,6 @@
 import { Player, setupPlayer } from "./player";
 import { allCards, Card, sortCards } from "./card";
-import { shuffle } from "./utils";
+import { shuffle } from "@game/utils";
 import { Board, setupBoard } from "./board";
 
 export type LostCities = {

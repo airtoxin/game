@@ -1,11 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "."
+    "composite": true,
+    "declaration": true
   },
-  "references": [
-    { "path": "../utils" }
-  ],
   "include": ["src"],
   "exclude": ["**/*.test.*"]
 }

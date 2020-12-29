@@ -30,3 +30,6 @@ export const maxBy = <T>(
   invariant(result, "Expect non empty array");
   return result!;
 };
+
+export const range = (max: number, min: number = 0) =>
+  [...Array(max - min)].map((_, i) => i + min);

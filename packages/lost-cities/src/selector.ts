@@ -3,7 +3,7 @@ import { Player } from "./player";
 import invariant from "tiny-invariant";
 import { Card } from "./card";
 import deepcopy from "deepcopy";
-import { maxBy } from "./utils";
+import { maxBy } from "@game/utils";
 
 export const getTurnPlayer = (game: LostCities): Player => {
   const turnPlayer = game.players.find((p) => p.id === game.turnPlayerId);

@@ -2,7 +2,7 @@
   "name": "@game/the-rose-king",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsc --watch",
+    "dev": "tsc --build . --watch",
     "build": "tsc --build .",
     "test": "jest"
   },

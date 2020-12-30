@@ -3,3 +3,4 @@
  */
 
 export * from "./Array";
+export * from "./TypeScript";

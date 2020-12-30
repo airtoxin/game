@@ -8,14 +8,14 @@ import {
 import { nanoid } from "nanoid";
 
 export type PlayerBase = {
-  id: string;
-  isBot: boolean;
+  readonly id: string;
+  readonly isBot: boolean;
 };
 
 export type Player = PlayerBase & {
-  hand: PowerCard[];
-  color: Color;
-  heroCards: HeroCard[];
+  readonly hand: PowerCard[];
+  readonly color: Color;
+  readonly heroCards: HeroCard[];
 };
 
 export const setupPlayers = (): readonly Player[] =>

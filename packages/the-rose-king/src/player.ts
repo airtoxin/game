@@ -6,11 +6,7 @@ import {
   setupHeroCards,
 } from "./components";
 import { nanoid } from "nanoid";
-
-export type PlayerBase = {
-  readonly id: string;
-  readonly isBot: boolean;
-};
+import { PlayerBase } from "./engine";
 
 export type Player = PlayerBase & {
   readonly hand: PowerCard[];

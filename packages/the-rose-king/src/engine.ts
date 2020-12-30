@@ -1,22 +1,22 @@
-import { Player, PlayerBase, setupPlayers } from "./player";
-import { allPowerCards, Board, PowerCard, setupBoard } from "./components";
+import { Player, setupPlayers } from "./player";
+import { allPowerCards, setupBoard } from "./components";
 import { shuffle } from "@game/utils";
 import { GameCommand } from "./commands";
 import { move } from "./move";
+import { GameState } from "./game";
 
-export type GameState = {
-  readonly players: readonly Player[];
-  readonly numMarkers: number;
-  readonly board: Board;
-  readonly deck: readonly PowerCard[];
-  readonly discardPile: readonly PowerCard[];
+export type PlayerBase = {
+  readonly id: string;
+  readonly isBot: boolean;
+};
+
+export type GameStateBase<TPlayer extends PlayerBase> = {
+  readonly players: readonly TPlayer[];
 };
 
 export type EngineOptions<
   TPlayer extends PlayerBase,
-  TGameState extends {
-    readonly players: readonly TPlayer[];
-  },
+  TGameState extends {},
   TGameCommand extends { readonly type: string }
 > = {
   setup(): TGameState;

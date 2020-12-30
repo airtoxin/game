@@ -1,9 +1,10 @@
-import { GameContext, GameState } from "./engine";
+import { GameContext } from "./engine";
 import { GameCommand } from "./commands";
 import produce from "immer";
 import { Player } from "./player";
 import invariant from "tiny-invariant";
 import { assertUnreachable } from "@game/utils";
+import { GameState } from "./game";
 
 export const move = (
   state: GameState,
@@ -55,10 +56,14 @@ export const move = (
             assertUnreachable(card.direction);
         }
         draft.discardPile.push(card);
-        return;
+        break;
       }
       case "moveWithHero": {
-        return;
+        Object.assign(
+          draft,
+          move(state, { type: "move", card: command.card }, ctx)
+        );
+        break;
       }
       case "draw": {
         const card = draft.deck.pop();
@@ -66,9 +71,11 @@ export const move = (
         const player = draft.players.find((p) => p.id === ctx.activePlayer.id);
         invariant(player, "No activePlayer in players");
         player.hand.push(card);
-        return;
+        break;
       }
       case "pass":
-        return;
+        break;
+      default:
+        assertUnreachable(command);
     }
   });

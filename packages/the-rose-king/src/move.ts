@@ -3,7 +3,7 @@ import { GameCommand } from "./commands";
 import produce from "immer";
 import { Player } from "./player";
 import invariant from "tiny-invariant";
-import { assertUnreachable } from "@game/utils/TypeScript";
+import { assertUnreachable } from "@game/utils";
 
 export const move = (
   state: GameState,

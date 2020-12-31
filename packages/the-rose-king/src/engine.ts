@@ -31,7 +31,7 @@ export type EngineOptions<
   getValidMoves(
     state: TGameState,
     ctx: GameContext<TPlayer, TGameResult>
-  ): readonly TGameCommandType[];
+  ): readonly TGameCommand[];
   isFinished(): TGameResult;
 };
 

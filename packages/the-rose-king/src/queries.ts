@@ -2,22 +2,21 @@ import { GameState } from "./game";
 import { Player } from "./player";
 import { PowerCard } from "./components";
 import produce from "immer";
-import { GameCommandType } from "./commands";
+import { drawCommand, GameCommand, moveCommand, passCommand } from "./commands";
 
 export const getValidMoves = (
   state: GameState,
   activePlayer: Player
-): readonly GameCommandType[] => {
-  const result: GameCommandType[] = [];
-  if (activePlayer.hand.length < 5) result.push("draw");
+): readonly GameCommand[] => {
+  const result: GameCommand[] = [];
+  if (activePlayer.hand.length < 5) result.push(drawCommand());
 
   for (const playableCard of getPlayableCards(state, activePlayer)) {
-    result.push(playableCard.withHeroCard ? "moveWithHero" : "move");
+    result.push(moveCommand(playableCard));
   }
-  if (result.length === 0) result.push("pass");
+  if (result.length === 0) result.push(passCommand());
 
-  // remove duplicates
-  return result.filter((t, index, r) => r.indexOf(t) === index);
+  return result;
 };
 
 export const getNextCrownPosition = (

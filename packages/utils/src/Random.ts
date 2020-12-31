@@ -21,7 +21,7 @@ export class Random {
     return min + (this.rng.random_int() % (max + 1 - min));
   }
 
-  shuffle<T extends any>(array: T[]): T[] {
+  shuffle<T extends any>(array: readonly T[]): T[] {
     const arr = array.slice();
     for (let i = arr.length - 1; i > 0; i--) {
       const r = this.rangeInt(0, i);

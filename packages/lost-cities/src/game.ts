@@ -1,7 +1,7 @@
 import { Player, setupPlayer } from "./player";
 import { allCards, Card, sortCards } from "./card";
-import { shuffle } from "@game/utils";
 import { Board, setupBoard } from "./board";
+import { random } from "./random";
 
 export type LostCities = {
   readonly players: Player[];
@@ -11,13 +11,13 @@ export type LostCities = {
 };
 
 export const setupGame = (): LostCities => {
-  const cards = shuffle(allCards);
+  const cards = random.shuffle(allCards);
 
   const players = [
     setupPlayer({ isBot: false, hands: sortCards(cards.slice(0, 8)) }),
     setupPlayer({ isBot: true, hands: sortCards(cards.slice(8, 16)) }),
   ];
-  const turnPlayer = shuffle(players)[0]!;
+  const turnPlayer = random.shuffle(players)[0]!;
   const deck = cards.slice(16);
   const board = setupBoard();
 

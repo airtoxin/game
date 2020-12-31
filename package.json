@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "wsrun --parallel -c dev",
-    "build": "wsrun --stages --changedSince main -c build",
+    "build": "wsrun --stages -c build",
     "test": "wsrun --sequential -c test"
   },
   "devDependencies": {

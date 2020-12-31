@@ -5,7 +5,7 @@ import { GameCommand, GameCommandType } from "./commands";
 import { GameResult } from "./result";
 import { allPowerCards, setupBoard } from "./components";
 import { move } from "./move";
-import { getPlayableCards } from "./queries";
+import { getValidMoves } from "./queries";
 import { random } from "./random";
 
 const engineOptions: EngineOptions<
@@ -29,16 +29,7 @@ const engineOptions: EngineOptions<
   },
   move,
   getValidMoves(state, ctx) {
-    const result: GameCommandType[] = [];
-    if (ctx.activePlayer.hand.length < 5) result.push("draw");
-
-    for (const playableCard of getPlayableCards(state, ctx.activePlayer)) {
-      result.push(playableCard.withHeroCard ? "moveWithHero" : "move");
-    }
-    if (result.length === 0) result.push("pass");
-
-    // remove duplicates
-    return result.filter((t, index, r) => r.indexOf(t) === index);
+    return getValidMoves(state, ctx.activePlayer);
   },
   isFinished() {
     return { finished: false };

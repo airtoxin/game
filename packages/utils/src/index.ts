@@ -3,4 +3,5 @@
  */
 
 export * from "./Array";
+export * from "./Random";
 export * from "./TypeScript";

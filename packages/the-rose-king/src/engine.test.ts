@@ -6,7 +6,7 @@ import { GameResult } from "./result";
 import { allPowerCards, setupBoard } from "./components";
 import { move } from "./move";
 import { getPlayableCards } from "./queries";
-import { shuffle } from "@game/utils/lib/src";
+import { random } from "./random";
 
 const engineOptions: EngineOptions<
   Player,
@@ -16,7 +16,7 @@ const engineOptions: EngineOptions<
   GameResult
 > = {
   setup() {
-    const cards = shuffle(allPowerCards);
+    const cards = random.shuffle(allPowerCards);
     const players = setupPlayers([cards.slice(0, 5), cards.slice(5, 10)]);
     return {
       players,

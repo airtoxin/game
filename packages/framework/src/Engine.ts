@@ -1,27 +1,19 @@
-import invariant from "tiny-invariant";
-import StrictEventEmitter from "strict-event-emitter-types";
+import {
+  GameCommandBase,
+  GameContext,
+  GameResultBase,
+  GameStateBase,
+  PlayerBase,
+} from "./types";
 import { EventEmitter } from "events";
-
-export type PlayerBase = {
-  readonly id: string;
-  readonly isBot: boolean;
-};
-
-export type GameStateBase<TPlayer extends PlayerBase> = {
-  readonly players: readonly TPlayer[];
-};
-
-export type GameResultBase = {
-  readonly finished: boolean;
-};
+import StrictEventEmitter from "strict-event-emitter-types";
+import invariant from "tiny-invariant";
 
 export type EngineOptions<
   TPlayer extends PlayerBase,
   TGameState extends GameStateBase<TPlayer>,
   TGameCommandType extends string,
-  TGameCommand extends {
-    readonly type: TGameCommandType | "@@framework@@init@@";
-  },
+  TGameCommand extends GameCommandBase<TGameCommandType>,
   TGameResult extends GameResultBase
 > = {
   setup(): TGameState;
@@ -37,23 +29,14 @@ export type EngineOptions<
   isFinished(): TGameResult;
 };
 
-export type GameContext<
-  TPlayer extends PlayerBase,
-  TGameResult extends GameResultBase
-> = {
-  readonly activePlayer: TPlayer;
-  readonly result: TGameResult;
-};
-
-type EngineEvents<
+export type EngineEvents<
   TGameCommandType extends string,
-  TGameCommand extends {
-    readonly type: TGameCommandType | "@@framework@@init@@";
-  },
+  TGameCommand extends GameCommandBase<TGameCommandType>,
   TGameResult extends GameResultBase
 > = {
   change: (command: TGameCommand) => void;
 };
+
 export class Engine<
   TPlayer extends PlayerBase,
   TGameState extends GameStateBase<TPlayer>,

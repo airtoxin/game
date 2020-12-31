@@ -1,4 +1,3 @@
-import { Engine, EngineOptions } from "./engine";
 import { Player, setupPlayers } from "./player";
 import { GameState } from "./game";
 import { GameCommand, GameCommandType, move } from "./commands";
@@ -6,6 +5,7 @@ import { GameResult } from "./result";
 import { allPowerCards, setupBoard } from "./components";
 import { getValidMoves } from "./queries";
 import { random } from "./random";
+import { Engine, EngineOptions } from "@game/framework";
 
 const engineOptions: EngineOptions<
   Player,

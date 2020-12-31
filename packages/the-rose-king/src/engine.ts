@@ -19,7 +19,9 @@ export type EngineOptions<
   TPlayer extends PlayerBase,
   TGameState extends GameStateBase<TPlayer>,
   TGameCommandType extends string,
-  TGameCommand extends { readonly type: TGameCommandType },
+  TGameCommand extends {
+    readonly type: TGameCommandType | "@@framework@@init@@";
+  },
   TGameResult extends GameResultBase
 > = {
   setup(): TGameState;
@@ -43,20 +45,29 @@ export type GameContext<
   readonly result: TGameResult;
 };
 
-type EngineEvents<TGameResult extends GameResultBase> = {
-  change: void;
+type EngineEvents<
+  TGameCommandType extends string,
+  TGameCommand extends {
+    readonly type: TGameCommandType | "@@framework@@init@@";
+  },
+  TGameResult extends GameResultBase
+> = {
+  change: (command: TGameCommand) => void;
 };
 export class Engine<
   TPlayer extends PlayerBase,
   TGameState extends GameStateBase<TPlayer>,
   TGameCommandType extends string,
-  TGameCommand extends { readonly type: TGameCommandType },
+  TGameCommand extends {
+    readonly type: TGameCommandType | "@@framework@@init@@";
+  },
   TGameResult extends GameResultBase
 > {
   private ee: StrictEventEmitter<
     EventEmitter,
-    EngineEvents<TGameResult>
+    EngineEvents<TGameCommandType, TGameCommand, TGameResult>
   > = new EventEmitter();
+  // @ts-expect-error
   private state: TGameState;
   private activePlayerIndex = 0;
 
@@ -68,10 +79,7 @@ export class Engine<
       TGameCommand,
       TGameResult
     >
-  ) {
-    this.state = engineOptions.setup();
-    this.ee.emit("change");
-  }
+  ) {}
 
   private getCtx(): GameContext<TPlayer, TGameResult> {
     const activePlayer = this.state.players[this.activePlayerIndex];
@@ -86,7 +94,8 @@ export class Engine<
   }
 
   start(): this {
-    this.ee.emit("change");
+    this.state = this.engineOptions.setup();
+    this.ee.emit("change", { type: "@@framework@@init@@" } as TGameCommand);
     return this;
   }
 
@@ -94,7 +103,7 @@ export class Engine<
     this.state = this.engineOptions.move(this.state, cmd, this.getCtx());
     this.activePlayerIndex =
       (this.activePlayerIndex + 1) % this.state.players.length;
-    this.ee.emit("change");
+    this.ee.emit("change", cmd);
     return this;
   }
 
@@ -102,13 +111,19 @@ export class Engine<
     callback: (
       state: TGameState,
       ctx: GameContext<TPlayer, TGameResult>,
-      validMoves: readonly TGameCommandType[]
+      validMoves: readonly TGameCommand[],
+      lastCommand: TGameCommand
     ) => void
   ): this {
-    this.ee.on("change", () => {
+    this.ee.on("change", (lastCommand) => {
       const state = this.state;
       const ctx = this.getCtx();
-      callback(state, ctx, this.engineOptions.getValidMoves(state, ctx));
+      callback(
+        state,
+        ctx,
+        this.engineOptions.getValidMoves(state, ctx),
+        lastCommand
+      );
     });
     return this;
   }

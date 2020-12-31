@@ -23,7 +23,7 @@ export type PowerCard = {
 };
 
 export const allPowerCards: PowerCard[] = directions.flatMap((direction) =>
-  range(3, 1).map((num) => ({
+  range(4, 1).map((num) => ({
     id: random.id(),
     direction,
     num,

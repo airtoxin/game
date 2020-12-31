@@ -1,10 +1,9 @@
 import { Engine, EngineOptions } from "./engine";
 import { Player, setupPlayers } from "./player";
 import { GameState } from "./game";
-import { GameCommand, GameCommandType } from "./commands";
+import { GameCommand, GameCommandType, move } from "./commands";
 import { GameResult } from "./result";
 import { allPowerCards, setupBoard } from "./components";
-import { move } from "./move";
 import { getValidMoves } from "./queries";
 import { random } from "./random";
 
@@ -43,12 +42,17 @@ describe("engine", () => {
 
     let count = 0;
     engine
-      .subscribe((state, ctx, validMoves) => {
+      .subscribe((state, ctx, validMoves, lastCommand) => {
         count += 1;
         if (count === 1) {
+          expect(lastCommand).toMatchInlineSnapshot(`
+            Object {
+              "type": "@@framework@@init@@",
+            }
+          `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "NbhtOTB2Q3Lg1F0qm5pa1",
+              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
                   "x": 4,
@@ -158,34 +162,74 @@ describe("engine", () => {
               },
               "deck": Array [
                 Object {
-                  "direction": "north-east",
-                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "direction": "north-west",
+                  "id": "IbyxJk7QjlCUiJoCo34rx",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "zmQfXHogz7s-4UAn_3lVd",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south-east",
-                  "id": "d7Ur8_ywqITgYdhhSrj3q",
-                  "num": 1,
+                  "direction": "south-west",
+                  "id": "B2Q3Lg1F0qm5pa1-iiqRk",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "south",
+                  "id": "s2Aw7KuKy-bwn09yMhGR7",
+                  "num": 2,
                 },
                 Object {
                   "direction": "west",
+                  "id": "qRFpG_EBaLXosIayJTiu-",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north-east",
+                  "id": "DvwzJkRGehfdcqeV0HqbN",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "west",
+                  "id": "TsePwPRkJ6tTm1EW3wimp",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "east",
+                  "id": "yYR0zm4YDXHgv-FGc9HMX",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "south",
                   "id": "Z_Y4OJdDts-_efJq_9S1n",
                   "num": 1,
                 },
                 Object {
-                  "direction": "east",
-                  "id": "KX9wR_QlskdSvC05LXtH5",
+                  "direction": "south-west",
+                  "id": "gvJsXN7SSxd_F4Fg-5s25",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "3PgUEbewFFjhn4BSu1fn3",
+                  "direction": "south-east",
+                  "id": "6aawUpl9C4mPjOZaWg8RX",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "EfXLHQs6MxJRvF2iNyfPT",
                   "num": 2,
                 },
                 Object {
-                  "direction": "north-west",
-                  "id": "gvJsXN7SSxd_F4Fg-5s25",
-                  "num": 2,
+                  "direction": "east",
+                  "id": "g4sItjieWvi_QUJ7NwjMX",
+                  "num": 3,
                 },
               ],
               "discardPile": Array [],
@@ -195,100 +239,100 @@ describe("engine", () => {
                   "color": "red",
                   "hand": Array [
                     Object {
-                      "direction": "north",
-                      "id": "EfXLHQs6MxJRvF2iNyfPT",
+                      "direction": "south-east",
+                      "id": "Ps6KpCWciBEROKlAh6ab5",
                       "num": 2,
+                    },
+                    Object {
+                      "direction": "south",
+                      "id": "qg9BHJkpArPHP56gZrf6_",
+                      "num": 3,
                     },
                     Object {
                       "direction": "west",
-                      "id": "s2Aw7KuKy-bwn09yMhGR7",
-                      "num": 2,
+                      "id": "zkwR561ksTNNyBYF3iRjW",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-west",
+                      "id": "GMbjoVd6jd5A0MPR-IAia",
+                      "num": 1,
                     },
                     Object {
                       "direction": "south-west",
-                      "id": "6aawUpl9C4mPjOZaWg8RX",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "north-east",
-                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "south-east",
-                      "id": "yYR0zm4YDXHgv-FGc9HMX",
+                      "id": "pM6JUcIwqrC6pXsNbhtOT",
                       "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "red",
-                      "id": "-iiqRkzkwR561ksTNNyBY",
+                      "id": "pIBGU_qMVbmiyEuFbzmjp",
                     },
                     Object {
                       "color": "red",
-                      "id": "F3iRjWTsePwPRkJ6tTm1E",
+                      "id": "koqJ34nfdFlafURvb43Ob",
                     },
                     Object {
                       "color": "red",
-                      "id": "W3wimpqRFpG_EBaLXosIa",
+                      "id": "Fu_3pQylMXiNE8M60nw0T",
                     },
                     Object {
                       "color": "red",
-                      "id": "yJTiu-GMbjoVd6jd5A0MP",
+                      "id": "9HwCM_qIKC_Z8F-WdhanD",
                     },
                   ],
-                  "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                  "id": "aSEX2yyJfuQpDuCtFgGGX",
                   "isBot": false,
                 },
                 Object {
                   "color": "white",
                   "hand": Array [
                     Object {
-                      "direction": "south",
-                      "id": "g4sItjieWvi_QUJ7NwjMX",
+                      "direction": "east",
+                      "id": "d7Ur8_ywqITgYdhhSrj3q",
                       "num": 1,
                     },
                     Object {
-                      "direction": "east",
-                      "id": "DvwzJkRGehfdcqeV0HqbN",
+                      "direction": "north-east",
+                      "id": "KX9wR_QlskdSvC05LXtH5",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north",
-                      "id": "zmQfXHogz7s-4UAn_3lVd",
+                      "direction": "south-east",
+                      "id": "3PgUEbewFFjhn4BSu1fn3",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-east",
+                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
                       "num": 1,
                     },
                     Object {
                       "direction": "north-west",
-                      "id": "qg9BHJkpArPHP56gZrf6_",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "south-west",
-                      "id": "Ps6KpCWciBEROKlAh6ab5",
-                      "num": 1,
+                      "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                      "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "white",
-                      "id": "9lIq0GIbyxJk7QjlCUiJo",
+                      "id": "JXTuDHbwOiza3JWyvNRgk",
                     },
                     Object {
                       "color": "white",
-                      "id": "Co34rxij9capE9pZkV88D",
+                      "id": "0EBVteuvTXnQDVB-1i_Mf",
                     },
                     Object {
                       "color": "white",
-                      "id": "TPpcQua-aSEX2yyJfuQpD",
+                      "id": "a8z3f2un115yNazaWVIKy",
                     },
                     Object {
                       "color": "white",
-                      "id": "uCtFgGGXpIBGU_qMVbmiy",
+                      "id": "FgAT4UGiMApB1oMzFlwbe",
                     },
                   ],
-                  "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                  "id": "X0lt0TpNkvKyYYW45C_x_",
                   "isBot": false,
                 },
               ],
@@ -300,50 +344,50 @@ describe("engine", () => {
                 "color": "red",
                 "hand": Array [
                   Object {
-                    "direction": "north",
-                    "id": "EfXLHQs6MxJRvF2iNyfPT",
+                    "direction": "south-east",
+                    "id": "Ps6KpCWciBEROKlAh6ab5",
                     "num": 2,
+                  },
+                  Object {
+                    "direction": "south",
+                    "id": "qg9BHJkpArPHP56gZrf6_",
+                    "num": 3,
                   },
                   Object {
                     "direction": "west",
-                    "id": "s2Aw7KuKy-bwn09yMhGR7",
-                    "num": 2,
+                    "id": "zkwR561ksTNNyBYF3iRjW",
+                    "num": 1,
+                  },
+                  Object {
+                    "direction": "north-west",
+                    "id": "GMbjoVd6jd5A0MPR-IAia",
+                    "num": 1,
                   },
                   Object {
                     "direction": "south-west",
-                    "id": "6aawUpl9C4mPjOZaWg8RX",
-                    "num": 2,
-                  },
-                  Object {
-                    "direction": "north-east",
-                    "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                    "num": 2,
-                  },
-                  Object {
-                    "direction": "south-east",
-                    "id": "yYR0zm4YDXHgv-FGc9HMX",
+                    "id": "pM6JUcIwqrC6pXsNbhtOT",
                     "num": 2,
                   },
                 ],
                 "heroCards": Array [
                   Object {
                     "color": "red",
-                    "id": "-iiqRkzkwR561ksTNNyBY",
+                    "id": "pIBGU_qMVbmiyEuFbzmjp",
                   },
                   Object {
                     "color": "red",
-                    "id": "F3iRjWTsePwPRkJ6tTm1E",
+                    "id": "koqJ34nfdFlafURvb43Ob",
                   },
                   Object {
                     "color": "red",
-                    "id": "W3wimpqRFpG_EBaLXosIa",
+                    "id": "Fu_3pQylMXiNE8M60nw0T",
                   },
                   Object {
                     "color": "red",
-                    "id": "yJTiu-GMbjoVd6jd5A0MP",
+                    "id": "9HwCM_qIKC_Z8F-WdhanD",
                   },
                 ],
-                "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                "id": "aSEX2yyJfuQpDuCtFgGGX",
                 "isBot": false,
               },
               "result": Object {
@@ -353,19 +397,74 @@ describe("engine", () => {
           `);
           expect(validMoves).toMatchInlineSnapshot(`
             Array [
-              "move",
+              Object {
+                "card": Object {
+                  "direction": "south-east",
+                  "id": "Ps6KpCWciBEROKlAh6ab5",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "south",
+                  "id": "qg9BHJkpArPHP56gZrf6_",
+                  "num": 3,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "west",
+                  "id": "zkwR561ksTNNyBYF3iRjW",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-west",
+                  "id": "GMbjoVd6jd5A0MPR-IAia",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "south-west",
+                  "id": "pM6JUcIwqrC6pXsNbhtOT",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
             ]
           `);
-          engine.command({ type: "move", card: state.players[0]!.hand[0]! });
+          engine.command(validMoves[0]!);
         }
         if (count === 2) {
+          expect(lastCommand).toMatchInlineSnapshot(`
+            Object {
+              "card": Object {
+                "direction": "south-east",
+                "id": "Ps6KpCWciBEROKlAh6ab5",
+                "num": 2,
+              },
+              "type": "move",
+              "withHeroCard": false,
+            }
+          `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "NbhtOTB2Q3Lg1F0qm5pa1",
+              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
-                  "x": 4,
-                  "y": 2,
+                  "x": 6,
+                  "y": 6,
                 },
                 "grid": Array [
                   Array [
@@ -395,56 +494,56 @@ describe("engine", () => {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Object {
                       "color": "red",
-                      "id": "EuFbzmjpkoqJ34nfdFlaf",
+                      "id": "YHpMRXpf-w71CrEGVCLRt",
                     },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
                     null,
                     null,
                   ],
@@ -474,40 +573,80 @@ describe("engine", () => {
               },
               "deck": Array [
                 Object {
-                  "direction": "north-east",
-                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "direction": "north-west",
+                  "id": "IbyxJk7QjlCUiJoCo34rx",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "zmQfXHogz7s-4UAn_3lVd",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south-east",
-                  "id": "d7Ur8_ywqITgYdhhSrj3q",
-                  "num": 1,
+                  "direction": "south-west",
+                  "id": "B2Q3Lg1F0qm5pa1-iiqRk",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "south",
+                  "id": "s2Aw7KuKy-bwn09yMhGR7",
+                  "num": 2,
                 },
                 Object {
                   "direction": "west",
+                  "id": "qRFpG_EBaLXosIayJTiu-",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north-east",
+                  "id": "DvwzJkRGehfdcqeV0HqbN",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "west",
+                  "id": "TsePwPRkJ6tTm1EW3wimp",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "east",
+                  "id": "yYR0zm4YDXHgv-FGc9HMX",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "south",
                   "id": "Z_Y4OJdDts-_efJq_9S1n",
                   "num": 1,
                 },
                 Object {
-                  "direction": "east",
-                  "id": "KX9wR_QlskdSvC05LXtH5",
+                  "direction": "south-west",
+                  "id": "gvJsXN7SSxd_F4Fg-5s25",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "3PgUEbewFFjhn4BSu1fn3",
+                  "direction": "south-east",
+                  "id": "6aawUpl9C4mPjOZaWg8RX",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "EfXLHQs6MxJRvF2iNyfPT",
                   "num": 2,
                 },
                 Object {
-                  "direction": "north-west",
-                  "id": "gvJsXN7SSxd_F4Fg-5s25",
-                  "num": 2,
+                  "direction": "east",
+                  "id": "g4sItjieWvi_QUJ7NwjMX",
+                  "num": 3,
                 },
               ],
               "discardPile": Array [
                 Object {
-                  "direction": "north",
-                  "id": "EfXLHQs6MxJRvF2iNyfPT",
+                  "direction": "south-east",
+                  "id": "Ps6KpCWciBEROKlAh6ab5",
                   "num": 2,
                 },
               ],
@@ -517,100 +656,95 @@ describe("engine", () => {
                   "color": "red",
                   "hand": Array [
                     Object {
-                      "direction": "north",
-                      "id": "EfXLHQs6MxJRvF2iNyfPT",
-                      "num": 2,
+                      "direction": "south",
+                      "id": "qg9BHJkpArPHP56gZrf6_",
+                      "num": 3,
                     },
                     Object {
                       "direction": "west",
-                      "id": "s2Aw7KuKy-bwn09yMhGR7",
-                      "num": 2,
+                      "id": "zkwR561ksTNNyBYF3iRjW",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-west",
+                      "id": "GMbjoVd6jd5A0MPR-IAia",
+                      "num": 1,
                     },
                     Object {
                       "direction": "south-west",
-                      "id": "6aawUpl9C4mPjOZaWg8RX",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "north-east",
-                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "south-east",
-                      "id": "yYR0zm4YDXHgv-FGc9HMX",
+                      "id": "pM6JUcIwqrC6pXsNbhtOT",
                       "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "red",
-                      "id": "-iiqRkzkwR561ksTNNyBY",
+                      "id": "pIBGU_qMVbmiyEuFbzmjp",
                     },
                     Object {
                       "color": "red",
-                      "id": "F3iRjWTsePwPRkJ6tTm1E",
+                      "id": "koqJ34nfdFlafURvb43Ob",
                     },
                     Object {
                       "color": "red",
-                      "id": "W3wimpqRFpG_EBaLXosIa",
+                      "id": "Fu_3pQylMXiNE8M60nw0T",
                     },
                     Object {
                       "color": "red",
-                      "id": "yJTiu-GMbjoVd6jd5A0MP",
+                      "id": "9HwCM_qIKC_Z8F-WdhanD",
                     },
                   ],
-                  "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                  "id": "aSEX2yyJfuQpDuCtFgGGX",
                   "isBot": false,
                 },
                 Object {
                   "color": "white",
                   "hand": Array [
                     Object {
-                      "direction": "south",
-                      "id": "g4sItjieWvi_QUJ7NwjMX",
+                      "direction": "east",
+                      "id": "d7Ur8_ywqITgYdhhSrj3q",
                       "num": 1,
                     },
                     Object {
-                      "direction": "east",
-                      "id": "DvwzJkRGehfdcqeV0HqbN",
+                      "direction": "north-east",
+                      "id": "KX9wR_QlskdSvC05LXtH5",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north",
-                      "id": "zmQfXHogz7s-4UAn_3lVd",
+                      "direction": "south-east",
+                      "id": "3PgUEbewFFjhn4BSu1fn3",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-east",
+                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
                       "num": 1,
                     },
                     Object {
                       "direction": "north-west",
-                      "id": "qg9BHJkpArPHP56gZrf6_",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "south-west",
-                      "id": "Ps6KpCWciBEROKlAh6ab5",
-                      "num": 1,
+                      "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                      "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "white",
-                      "id": "9lIq0GIbyxJk7QjlCUiJo",
+                      "id": "JXTuDHbwOiza3JWyvNRgk",
                     },
                     Object {
                       "color": "white",
-                      "id": "Co34rxij9capE9pZkV88D",
+                      "id": "0EBVteuvTXnQDVB-1i_Mf",
                     },
                     Object {
                       "color": "white",
-                      "id": "TPpcQua-aSEX2yyJfuQpD",
+                      "id": "a8z3f2un115yNazaWVIKy",
                     },
                     Object {
                       "color": "white",
-                      "id": "uCtFgGGXpIBGU_qMVbmiy",
+                      "id": "FgAT4UGiMApB1oMzFlwbe",
                     },
                   ],
-                  "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                  "id": "X0lt0TpNkvKyYYW45C_x_",
                   "isBot": false,
                 },
               ],
@@ -622,50 +756,50 @@ describe("engine", () => {
                 "color": "white",
                 "hand": Array [
                   Object {
-                    "direction": "south",
-                    "id": "g4sItjieWvi_QUJ7NwjMX",
+                    "direction": "east",
+                    "id": "d7Ur8_ywqITgYdhhSrj3q",
                     "num": 1,
                   },
                   Object {
-                    "direction": "east",
-                    "id": "DvwzJkRGehfdcqeV0HqbN",
+                    "direction": "north-east",
+                    "id": "KX9wR_QlskdSvC05LXtH5",
                     "num": 2,
                   },
                   Object {
-                    "direction": "north",
-                    "id": "zmQfXHogz7s-4UAn_3lVd",
+                    "direction": "south-east",
+                    "id": "3PgUEbewFFjhn4BSu1fn3",
+                    "num": 1,
+                  },
+                  Object {
+                    "direction": "north-east",
+                    "id": "eJx9FI7WZ5bNYrWyPNK3y",
                     "num": 1,
                   },
                   Object {
                     "direction": "north-west",
-                    "id": "qg9BHJkpArPHP56gZrf6_",
-                    "num": 1,
-                  },
-                  Object {
-                    "direction": "south-west",
-                    "id": "Ps6KpCWciBEROKlAh6ab5",
-                    "num": 1,
+                    "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                    "num": 2,
                   },
                 ],
                 "heroCards": Array [
                   Object {
                     "color": "white",
-                    "id": "9lIq0GIbyxJk7QjlCUiJo",
+                    "id": "JXTuDHbwOiza3JWyvNRgk",
                   },
                   Object {
                     "color": "white",
-                    "id": "Co34rxij9capE9pZkV88D",
+                    "id": "0EBVteuvTXnQDVB-1i_Mf",
                   },
                   Object {
                     "color": "white",
-                    "id": "TPpcQua-aSEX2yyJfuQpD",
+                    "id": "a8z3f2un115yNazaWVIKy",
                   },
                   Object {
                     "color": "white",
-                    "id": "uCtFgGGXpIBGU_qMVbmiy",
+                    "id": "FgAT4UGiMApB1oMzFlwbe",
                   },
                 ],
-                "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                "id": "X0lt0TpNkvKyYYW45C_x_",
                 "isBot": false,
               },
               "result": Object {
@@ -675,19 +809,74 @@ describe("engine", () => {
           `);
           expect(validMoves).toMatchInlineSnapshot(`
             Array [
-              "move",
+              Object {
+                "card": Object {
+                  "direction": "east",
+                  "id": "d7Ur8_ywqITgYdhhSrj3q",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-east",
+                  "id": "KX9wR_QlskdSvC05LXtH5",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "south-east",
+                  "id": "3PgUEbewFFjhn4BSu1fn3",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-east",
+                  "id": "eJx9FI7WZ5bNYrWyPNK3y",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-west",
+                  "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
             ]
           `);
-          engine.command({ type: "move", card: state.players[1]!.hand[0]! });
+          engine.command(validMoves[0]!);
         }
         if (count === 3) {
+          expect(lastCommand).toMatchInlineSnapshot(`
+            Object {
+              "card": Object {
+                "direction": "east",
+                "id": "d7Ur8_ywqITgYdhhSrj3q",
+                "num": 1,
+              },
+              "type": "move",
+              "withHeroCard": false,
+            }
+          `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "NbhtOTB2Q3Lg1F0qm5pa1",
+              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
-                  "x": 4,
-                  "y": 3,
+                  "x": 7,
+                  "y": 6,
                 },
                 "grid": Array [
                   Array [
@@ -717,60 +906,60 @@ describe("engine", () => {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Object {
                       "color": "red",
-                      "id": "EuFbzmjpkoqJ34nfdFlaf",
+                      "id": "YHpMRXpf-w71CrEGVCLRt",
                     },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
                     Object {
                       "color": "white",
-                      "id": "URvb43ObFu_3pQylMXiNE",
+                      "id": "nfcAaFATquG7TeRjDHyrH",
                     },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
                     null,
                   ],
                   Array [
@@ -799,45 +988,85 @@ describe("engine", () => {
               },
               "deck": Array [
                 Object {
-                  "direction": "north-east",
-                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "direction": "north-west",
+                  "id": "IbyxJk7QjlCUiJoCo34rx",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "zmQfXHogz7s-4UAn_3lVd",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south-east",
-                  "id": "d7Ur8_ywqITgYdhhSrj3q",
-                  "num": 1,
+                  "direction": "south-west",
+                  "id": "B2Q3Lg1F0qm5pa1-iiqRk",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "south",
+                  "id": "s2Aw7KuKy-bwn09yMhGR7",
+                  "num": 2,
                 },
                 Object {
                   "direction": "west",
+                  "id": "qRFpG_EBaLXosIayJTiu-",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north-east",
+                  "id": "DvwzJkRGehfdcqeV0HqbN",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "west",
+                  "id": "TsePwPRkJ6tTm1EW3wimp",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "east",
+                  "id": "yYR0zm4YDXHgv-FGc9HMX",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "south",
                   "id": "Z_Y4OJdDts-_efJq_9S1n",
                   "num": 1,
                 },
                 Object {
-                  "direction": "east",
-                  "id": "KX9wR_QlskdSvC05LXtH5",
+                  "direction": "south-west",
+                  "id": "gvJsXN7SSxd_F4Fg-5s25",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "3PgUEbewFFjhn4BSu1fn3",
-                  "num": 2,
+                  "direction": "south-east",
+                  "id": "6aawUpl9C4mPjOZaWg8RX",
+                  "num": 3,
                 },
-                Object {
-                  "direction": "north-west",
-                  "id": "gvJsXN7SSxd_F4Fg-5s25",
-                  "num": 2,
-                },
-              ],
-              "discardPile": Array [
                 Object {
                   "direction": "north",
                   "id": "EfXLHQs6MxJRvF2iNyfPT",
                   "num": 2,
                 },
                 Object {
-                  "direction": "south",
+                  "direction": "east",
                   "id": "g4sItjieWvi_QUJ7NwjMX",
+                  "num": 3,
+                },
+              ],
+              "discardPile": Array [
+                Object {
+                  "direction": "south-east",
+                  "id": "Ps6KpCWciBEROKlAh6ab5",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "east",
+                  "id": "d7Ur8_ywqITgYdhhSrj3q",
                   "num": 1,
                 },
               ],
@@ -847,100 +1076,90 @@ describe("engine", () => {
                   "color": "red",
                   "hand": Array [
                     Object {
-                      "direction": "north",
-                      "id": "EfXLHQs6MxJRvF2iNyfPT",
-                      "num": 2,
+                      "direction": "south",
+                      "id": "qg9BHJkpArPHP56gZrf6_",
+                      "num": 3,
                     },
                     Object {
                       "direction": "west",
-                      "id": "s2Aw7KuKy-bwn09yMhGR7",
-                      "num": 2,
+                      "id": "zkwR561ksTNNyBYF3iRjW",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-west",
+                      "id": "GMbjoVd6jd5A0MPR-IAia",
+                      "num": 1,
                     },
                     Object {
                       "direction": "south-west",
-                      "id": "6aawUpl9C4mPjOZaWg8RX",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "north-east",
-                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "south-east",
-                      "id": "yYR0zm4YDXHgv-FGc9HMX",
+                      "id": "pM6JUcIwqrC6pXsNbhtOT",
                       "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "red",
-                      "id": "-iiqRkzkwR561ksTNNyBY",
+                      "id": "pIBGU_qMVbmiyEuFbzmjp",
                     },
                     Object {
                       "color": "red",
-                      "id": "F3iRjWTsePwPRkJ6tTm1E",
+                      "id": "koqJ34nfdFlafURvb43Ob",
                     },
                     Object {
                       "color": "red",
-                      "id": "W3wimpqRFpG_EBaLXosIa",
+                      "id": "Fu_3pQylMXiNE8M60nw0T",
                     },
                     Object {
                       "color": "red",
-                      "id": "yJTiu-GMbjoVd6jd5A0MP",
+                      "id": "9HwCM_qIKC_Z8F-WdhanD",
                     },
                   ],
-                  "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                  "id": "aSEX2yyJfuQpDuCtFgGGX",
                   "isBot": false,
                 },
                 Object {
                   "color": "white",
                   "hand": Array [
                     Object {
-                      "direction": "south",
-                      "id": "g4sItjieWvi_QUJ7NwjMX",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "east",
-                      "id": "DvwzJkRGehfdcqeV0HqbN",
+                      "direction": "north-east",
+                      "id": "KX9wR_QlskdSvC05LXtH5",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north",
-                      "id": "zmQfXHogz7s-4UAn_3lVd",
+                      "direction": "south-east",
+                      "id": "3PgUEbewFFjhn4BSu1fn3",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-east",
+                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
                       "num": 1,
                     },
                     Object {
                       "direction": "north-west",
-                      "id": "qg9BHJkpArPHP56gZrf6_",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "south-west",
-                      "id": "Ps6KpCWciBEROKlAh6ab5",
-                      "num": 1,
+                      "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                      "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "white",
-                      "id": "9lIq0GIbyxJk7QjlCUiJo",
+                      "id": "JXTuDHbwOiza3JWyvNRgk",
                     },
                     Object {
                       "color": "white",
-                      "id": "Co34rxij9capE9pZkV88D",
+                      "id": "0EBVteuvTXnQDVB-1i_Mf",
                     },
                     Object {
                       "color": "white",
-                      "id": "TPpcQua-aSEX2yyJfuQpD",
+                      "id": "a8z3f2un115yNazaWVIKy",
                     },
                     Object {
                       "color": "white",
-                      "id": "uCtFgGGXpIBGU_qMVbmiy",
+                      "id": "FgAT4UGiMApB1oMzFlwbe",
                     },
                   ],
-                  "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                  "id": "X0lt0TpNkvKyYYW45C_x_",
                   "isBot": false,
                 },
               ],
@@ -952,50 +1171,45 @@ describe("engine", () => {
                 "color": "red",
                 "hand": Array [
                   Object {
-                    "direction": "north",
-                    "id": "EfXLHQs6MxJRvF2iNyfPT",
-                    "num": 2,
+                    "direction": "south",
+                    "id": "qg9BHJkpArPHP56gZrf6_",
+                    "num": 3,
                   },
                   Object {
                     "direction": "west",
-                    "id": "s2Aw7KuKy-bwn09yMhGR7",
-                    "num": 2,
+                    "id": "zkwR561ksTNNyBYF3iRjW",
+                    "num": 1,
+                  },
+                  Object {
+                    "direction": "north-west",
+                    "id": "GMbjoVd6jd5A0MPR-IAia",
+                    "num": 1,
                   },
                   Object {
                     "direction": "south-west",
-                    "id": "6aawUpl9C4mPjOZaWg8RX",
-                    "num": 2,
-                  },
-                  Object {
-                    "direction": "north-east",
-                    "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                    "num": 2,
-                  },
-                  Object {
-                    "direction": "south-east",
-                    "id": "yYR0zm4YDXHgv-FGc9HMX",
+                    "id": "pM6JUcIwqrC6pXsNbhtOT",
                     "num": 2,
                   },
                 ],
                 "heroCards": Array [
                   Object {
                     "color": "red",
-                    "id": "-iiqRkzkwR561ksTNNyBY",
+                    "id": "pIBGU_qMVbmiyEuFbzmjp",
                   },
                   Object {
                     "color": "red",
-                    "id": "F3iRjWTsePwPRkJ6tTm1E",
+                    "id": "koqJ34nfdFlafURvb43Ob",
                   },
                   Object {
                     "color": "red",
-                    "id": "W3wimpqRFpG_EBaLXosIa",
+                    "id": "Fu_3pQylMXiNE8M60nw0T",
                   },
                   Object {
                     "color": "red",
-                    "id": "yJTiu-GMbjoVd6jd5A0MP",
+                    "id": "9HwCM_qIKC_Z8F-WdhanD",
                   },
                 ],
-                "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                "id": "aSEX2yyJfuQpDuCtFgGGX",
                 "isBot": false,
               },
               "result": Object {
@@ -1005,19 +1219,44 @@ describe("engine", () => {
           `);
           expect(validMoves).toMatchInlineSnapshot(`
             Array [
-              "move",
+              Object {
+                "type": "draw",
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-west",
+                  "id": "GMbjoVd6jd5A0MPR-IAia",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "south-west",
+                  "id": "pM6JUcIwqrC6pXsNbhtOT",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
             ]
           `);
-          engine.command({ type: "move", card: state.players[0]!.hand[0]! });
+          engine.command(validMoves[0]!);
         }
         if (count === 4) {
+          expect(lastCommand).toMatchInlineSnapshot(`
+            Object {
+              "type": "draw",
+            }
+          `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "NbhtOTB2Q3Lg1F0qm5pa1",
+              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
-                  "x": 4,
-                  "y": 1,
+                  "x": 7,
+                  "y": 6,
                 },
                 "grid": Array [
                   Array [
@@ -1036,10 +1275,7 @@ describe("engine", () => {
                     null,
                     null,
                     null,
-                    Object {
-                      "color": "red",
-                      "id": "8M60nw0T9HwCM_qIKC_Z8",
-                    },
+                    null,
                     null,
                     null,
                     null,
@@ -1050,10 +1286,7 @@ describe("engine", () => {
                     null,
                     null,
                     null,
-                    Object {
-                      "color": "red",
-                      "id": "EuFbzmjpkoqJ34nfdFlaf",
-                    },
+                    null,
                     null,
                     null,
                     null,
@@ -1064,46 +1297,49 @@ describe("engine", () => {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    Object {
+                      "color": "red",
+                      "id": "YHpMRXpf-w71CrEGVCLRt",
+                    },
                     Object {
                       "color": "white",
-                      "id": "URvb43ObFu_3pQylMXiNE",
+                      "id": "nfcAaFATquG7TeRjDHyrH",
                     },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
                     null,
                   ],
                   Array [
@@ -1132,153 +1368,178 @@ describe("engine", () => {
               },
               "deck": Array [
                 Object {
-                  "direction": "north-east",
-                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "direction": "north-west",
+                  "id": "IbyxJk7QjlCUiJoCo34rx",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "zmQfXHogz7s-4UAn_3lVd",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south-east",
-                  "id": "d7Ur8_ywqITgYdhhSrj3q",
-                  "num": 1,
+                  "direction": "south-west",
+                  "id": "B2Q3Lg1F0qm5pa1-iiqRk",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "south",
+                  "id": "s2Aw7KuKy-bwn09yMhGR7",
+                  "num": 2,
                 },
                 Object {
                   "direction": "west",
+                  "id": "qRFpG_EBaLXosIayJTiu-",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north-east",
+                  "id": "DvwzJkRGehfdcqeV0HqbN",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "west",
+                  "id": "TsePwPRkJ6tTm1EW3wimp",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "east",
+                  "id": "yYR0zm4YDXHgv-FGc9HMX",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "south",
                   "id": "Z_Y4OJdDts-_efJq_9S1n",
                   "num": 1,
                 },
                 Object {
-                  "direction": "east",
-                  "id": "KX9wR_QlskdSvC05LXtH5",
+                  "direction": "south-west",
+                  "id": "gvJsXN7SSxd_F4Fg-5s25",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "3PgUEbewFFjhn4BSu1fn3",
-                  "num": 2,
+                  "direction": "south-east",
+                  "id": "6aawUpl9C4mPjOZaWg8RX",
+                  "num": 3,
                 },
                 Object {
-                  "direction": "north-west",
-                  "id": "gvJsXN7SSxd_F4Fg-5s25",
+                  "direction": "north",
+                  "id": "EfXLHQs6MxJRvF2iNyfPT",
                   "num": 2,
                 },
               ],
               "discardPile": Array [
                 Object {
-                  "direction": "north",
-                  "id": "EfXLHQs6MxJRvF2iNyfPT",
+                  "direction": "south-east",
+                  "id": "Ps6KpCWciBEROKlAh6ab5",
                   "num": 2,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "g4sItjieWvi_QUJ7NwjMX",
+                  "direction": "east",
+                  "id": "d7Ur8_ywqITgYdhhSrj3q",
                   "num": 1,
                 },
-                Object {
-                  "direction": "north",
-                  "id": "EfXLHQs6MxJRvF2iNyfPT",
-                  "num": 2,
-                },
               ],
-              "numMarkers": 49,
+              "numMarkers": 50,
               "players": Array [
                 Object {
                   "color": "red",
                   "hand": Array [
                     Object {
-                      "direction": "north",
-                      "id": "EfXLHQs6MxJRvF2iNyfPT",
-                      "num": 2,
+                      "direction": "south",
+                      "id": "qg9BHJkpArPHP56gZrf6_",
+                      "num": 3,
                     },
                     Object {
                       "direction": "west",
-                      "id": "s2Aw7KuKy-bwn09yMhGR7",
-                      "num": 2,
+                      "id": "zkwR561ksTNNyBYF3iRjW",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-west",
+                      "id": "GMbjoVd6jd5A0MPR-IAia",
+                      "num": 1,
                     },
                     Object {
                       "direction": "south-west",
-                      "id": "6aawUpl9C4mPjOZaWg8RX",
+                      "id": "pM6JUcIwqrC6pXsNbhtOT",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north-east",
-                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "south-east",
-                      "id": "yYR0zm4YDXHgv-FGc9HMX",
-                      "num": 2,
+                      "direction": "east",
+                      "id": "g4sItjieWvi_QUJ7NwjMX",
+                      "num": 3,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "red",
-                      "id": "-iiqRkzkwR561ksTNNyBY",
+                      "id": "pIBGU_qMVbmiyEuFbzmjp",
                     },
                     Object {
                       "color": "red",
-                      "id": "F3iRjWTsePwPRkJ6tTm1E",
+                      "id": "koqJ34nfdFlafURvb43Ob",
                     },
                     Object {
                       "color": "red",
-                      "id": "W3wimpqRFpG_EBaLXosIa",
+                      "id": "Fu_3pQylMXiNE8M60nw0T",
                     },
                     Object {
                       "color": "red",
-                      "id": "yJTiu-GMbjoVd6jd5A0MP",
+                      "id": "9HwCM_qIKC_Z8F-WdhanD",
                     },
                   ],
-                  "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                  "id": "aSEX2yyJfuQpDuCtFgGGX",
                   "isBot": false,
                 },
                 Object {
                   "color": "white",
                   "hand": Array [
                     Object {
-                      "direction": "south",
-                      "id": "g4sItjieWvi_QUJ7NwjMX",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "east",
-                      "id": "DvwzJkRGehfdcqeV0HqbN",
+                      "direction": "north-east",
+                      "id": "KX9wR_QlskdSvC05LXtH5",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north",
-                      "id": "zmQfXHogz7s-4UAn_3lVd",
+                      "direction": "south-east",
+                      "id": "3PgUEbewFFjhn4BSu1fn3",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-east",
+                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
                       "num": 1,
                     },
                     Object {
                       "direction": "north-west",
-                      "id": "qg9BHJkpArPHP56gZrf6_",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "south-west",
-                      "id": "Ps6KpCWciBEROKlAh6ab5",
-                      "num": 1,
+                      "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                      "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "white",
-                      "id": "9lIq0GIbyxJk7QjlCUiJo",
+                      "id": "JXTuDHbwOiza3JWyvNRgk",
                     },
                     Object {
                       "color": "white",
-                      "id": "Co34rxij9capE9pZkV88D",
+                      "id": "0EBVteuvTXnQDVB-1i_Mf",
                     },
                     Object {
                       "color": "white",
-                      "id": "TPpcQua-aSEX2yyJfuQpD",
+                      "id": "a8z3f2un115yNazaWVIKy",
                     },
                     Object {
                       "color": "white",
-                      "id": "uCtFgGGXpIBGU_qMVbmiy",
+                      "id": "FgAT4UGiMApB1oMzFlwbe",
                     },
                   ],
-                  "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                  "id": "X0lt0TpNkvKyYYW45C_x_",
                   "isBot": false,
                 },
               ],
@@ -1290,50 +1551,45 @@ describe("engine", () => {
                 "color": "white",
                 "hand": Array [
                   Object {
-                    "direction": "south",
-                    "id": "g4sItjieWvi_QUJ7NwjMX",
-                    "num": 1,
-                  },
-                  Object {
-                    "direction": "east",
-                    "id": "DvwzJkRGehfdcqeV0HqbN",
+                    "direction": "north-east",
+                    "id": "KX9wR_QlskdSvC05LXtH5",
                     "num": 2,
                   },
                   Object {
-                    "direction": "north",
-                    "id": "zmQfXHogz7s-4UAn_3lVd",
+                    "direction": "south-east",
+                    "id": "3PgUEbewFFjhn4BSu1fn3",
+                    "num": 1,
+                  },
+                  Object {
+                    "direction": "north-east",
+                    "id": "eJx9FI7WZ5bNYrWyPNK3y",
                     "num": 1,
                   },
                   Object {
                     "direction": "north-west",
-                    "id": "qg9BHJkpArPHP56gZrf6_",
-                    "num": 1,
-                  },
-                  Object {
-                    "direction": "south-west",
-                    "id": "Ps6KpCWciBEROKlAh6ab5",
-                    "num": 1,
+                    "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                    "num": 2,
                   },
                 ],
                 "heroCards": Array [
                   Object {
                     "color": "white",
-                    "id": "9lIq0GIbyxJk7QjlCUiJo",
+                    "id": "JXTuDHbwOiza3JWyvNRgk",
                   },
                   Object {
                     "color": "white",
-                    "id": "Co34rxij9capE9pZkV88D",
+                    "id": "0EBVteuvTXnQDVB-1i_Mf",
                   },
                   Object {
                     "color": "white",
-                    "id": "TPpcQua-aSEX2yyJfuQpD",
+                    "id": "a8z3f2un115yNazaWVIKy",
                   },
                   Object {
                     "color": "white",
-                    "id": "uCtFgGGXpIBGU_qMVbmiy",
+                    "id": "FgAT4UGiMApB1oMzFlwbe",
                   },
                 ],
-                "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                "id": "X0lt0TpNkvKyYYW45C_x_",
                 "isBot": false,
               },
               "result": Object {
@@ -1343,19 +1599,53 @@ describe("engine", () => {
           `);
           expect(validMoves).toMatchInlineSnapshot(`
             Array [
-              "move",
+              Object {
+                "type": "draw",
+              },
+              Object {
+                "card": Object {
+                  "direction": "south-east",
+                  "id": "3PgUEbewFFjhn4BSu1fn3",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-east",
+                  "id": "eJx9FI7WZ5bNYrWyPNK3y",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "north-west",
+                  "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
             ]
           `);
-          engine.command({ type: "move", card: state.players[1]!.hand[0]! });
+          engine.command(validMoves[0]!);
         }
         if (count === 5) {
+          expect(lastCommand).toMatchInlineSnapshot(`
+            Object {
+              "type": "draw",
+            }
+          `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "NbhtOTB2Q3Lg1F0qm5pa1",
+              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
-                  "x": 4,
-                  "y": 2,
+                  "x": 7,
+                  "y": 6,
                 },
                 "grid": Array [
                   Array [
@@ -1374,74 +1664,71 @@ describe("engine", () => {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ],
+                  Array [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Object {
                       "color": "red",
-                      "id": "8M60nw0T9HwCM_qIKC_Z8",
+                      "id": "YHpMRXpf-w71CrEGVCLRt",
                     },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
                     Object {
                       "color": "white",
-                      "id": "F-WdhanDX0lt0TpNkvKyY",
+                      "id": "nfcAaFATquG7TeRjDHyrH",
                     },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    Object {
-                      "color": "white",
-                      "id": "URvb43ObFu_3pQylMXiNE",
-                    },
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  ],
-                  Array [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
                     null,
                   ],
                   Array [
@@ -1470,158 +1757,178 @@ describe("engine", () => {
               },
               "deck": Array [
                 Object {
-                  "direction": "north-east",
-                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "direction": "north-west",
+                  "id": "IbyxJk7QjlCUiJoCo34rx",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "zmQfXHogz7s-4UAn_3lVd",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south-east",
-                  "id": "d7Ur8_ywqITgYdhhSrj3q",
-                  "num": 1,
+                  "direction": "south-west",
+                  "id": "B2Q3Lg1F0qm5pa1-iiqRk",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north",
+                  "id": "1AA7yC0Ir6LeK3MHU48pT",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "south",
+                  "id": "s2Aw7KuKy-bwn09yMhGR7",
+                  "num": 2,
                 },
                 Object {
                   "direction": "west",
+                  "id": "qRFpG_EBaLXosIayJTiu-",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "north-east",
+                  "id": "DvwzJkRGehfdcqeV0HqbN",
+                  "num": 3,
+                },
+                Object {
+                  "direction": "west",
+                  "id": "TsePwPRkJ6tTm1EW3wimp",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "east",
+                  "id": "yYR0zm4YDXHgv-FGc9HMX",
+                  "num": 2,
+                },
+                Object {
+                  "direction": "south",
                   "id": "Z_Y4OJdDts-_efJq_9S1n",
                   "num": 1,
                 },
                 Object {
-                  "direction": "east",
-                  "id": "KX9wR_QlskdSvC05LXtH5",
+                  "direction": "south-west",
+                  "id": "gvJsXN7SSxd_F4Fg-5s25",
                   "num": 1,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "3PgUEbewFFjhn4BSu1fn3",
-                  "num": 2,
-                },
-                Object {
-                  "direction": "north-west",
-                  "id": "gvJsXN7SSxd_F4Fg-5s25",
-                  "num": 2,
+                  "direction": "south-east",
+                  "id": "6aawUpl9C4mPjOZaWg8RX",
+                  "num": 3,
                 },
               ],
               "discardPile": Array [
                 Object {
-                  "direction": "north",
-                  "id": "EfXLHQs6MxJRvF2iNyfPT",
+                  "direction": "south-east",
+                  "id": "Ps6KpCWciBEROKlAh6ab5",
                   "num": 2,
                 },
                 Object {
-                  "direction": "south",
-                  "id": "g4sItjieWvi_QUJ7NwjMX",
-                  "num": 1,
-                },
-                Object {
-                  "direction": "north",
-                  "id": "EfXLHQs6MxJRvF2iNyfPT",
-                  "num": 2,
-                },
-                Object {
-                  "direction": "south",
-                  "id": "g4sItjieWvi_QUJ7NwjMX",
+                  "direction": "east",
+                  "id": "d7Ur8_ywqITgYdhhSrj3q",
                   "num": 1,
                 },
               ],
-              "numMarkers": 48,
+              "numMarkers": 50,
               "players": Array [
                 Object {
                   "color": "red",
                   "hand": Array [
                     Object {
-                      "direction": "north",
-                      "id": "EfXLHQs6MxJRvF2iNyfPT",
-                      "num": 2,
+                      "direction": "south",
+                      "id": "qg9BHJkpArPHP56gZrf6_",
+                      "num": 3,
                     },
                     Object {
                       "direction": "west",
-                      "id": "s2Aw7KuKy-bwn09yMhGR7",
-                      "num": 2,
+                      "id": "zkwR561ksTNNyBYF3iRjW",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-west",
+                      "id": "GMbjoVd6jd5A0MPR-IAia",
+                      "num": 1,
                     },
                     Object {
                       "direction": "south-west",
-                      "id": "6aawUpl9C4mPjOZaWg8RX",
+                      "id": "pM6JUcIwqrC6pXsNbhtOT",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north-east",
-                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                      "num": 2,
-                    },
-                    Object {
-                      "direction": "south-east",
-                      "id": "yYR0zm4YDXHgv-FGc9HMX",
-                      "num": 2,
+                      "direction": "east",
+                      "id": "g4sItjieWvi_QUJ7NwjMX",
+                      "num": 3,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "red",
-                      "id": "-iiqRkzkwR561ksTNNyBY",
+                      "id": "pIBGU_qMVbmiyEuFbzmjp",
                     },
                     Object {
                       "color": "red",
-                      "id": "F3iRjWTsePwPRkJ6tTm1E",
+                      "id": "koqJ34nfdFlafURvb43Ob",
                     },
                     Object {
                       "color": "red",
-                      "id": "W3wimpqRFpG_EBaLXosIa",
+                      "id": "Fu_3pQylMXiNE8M60nw0T",
                     },
                     Object {
                       "color": "red",
-                      "id": "yJTiu-GMbjoVd6jd5A0MP",
+                      "id": "9HwCM_qIKC_Z8F-WdhanD",
                     },
                   ],
-                  "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                  "id": "aSEX2yyJfuQpDuCtFgGGX",
                   "isBot": false,
                 },
                 Object {
                   "color": "white",
                   "hand": Array [
                     Object {
-                      "direction": "south",
-                      "id": "g4sItjieWvi_QUJ7NwjMX",
-                      "num": 1,
-                    },
-                    Object {
-                      "direction": "east",
-                      "id": "DvwzJkRGehfdcqeV0HqbN",
+                      "direction": "north-east",
+                      "id": "KX9wR_QlskdSvC05LXtH5",
                       "num": 2,
                     },
                     Object {
-                      "direction": "north",
-                      "id": "zmQfXHogz7s-4UAn_3lVd",
+                      "direction": "south-east",
+                      "id": "3PgUEbewFFjhn4BSu1fn3",
+                      "num": 1,
+                    },
+                    Object {
+                      "direction": "north-east",
+                      "id": "eJx9FI7WZ5bNYrWyPNK3y",
                       "num": 1,
                     },
                     Object {
                       "direction": "north-west",
-                      "id": "qg9BHJkpArPHP56gZrf6_",
-                      "num": 1,
+                      "id": "_hOtQ7FLpx9q2Y99lIq0G",
+                      "num": 2,
                     },
                     Object {
-                      "direction": "south-west",
-                      "id": "Ps6KpCWciBEROKlAh6ab5",
-                      "num": 1,
+                      "direction": "north",
+                      "id": "EfXLHQs6MxJRvF2iNyfPT",
+                      "num": 2,
                     },
                   ],
                   "heroCards": Array [
                     Object {
                       "color": "white",
-                      "id": "9lIq0GIbyxJk7QjlCUiJo",
+                      "id": "JXTuDHbwOiza3JWyvNRgk",
                     },
                     Object {
                       "color": "white",
-                      "id": "Co34rxij9capE9pZkV88D",
+                      "id": "0EBVteuvTXnQDVB-1i_Mf",
                     },
                     Object {
                       "color": "white",
-                      "id": "TPpcQua-aSEX2yyJfuQpD",
+                      "id": "a8z3f2un115yNazaWVIKy",
                     },
                     Object {
                       "color": "white",
-                      "id": "uCtFgGGXpIBGU_qMVbmiy",
+                      "id": "FgAT4UGiMApB1oMzFlwbe",
                     },
                   ],
-                  "id": "R-IAia_hOtQ7FLpx9q2Y9",
+                  "id": "X0lt0TpNkvKyYYW45C_x_",
                   "isBot": false,
                 },
               ],
@@ -1633,50 +1940,50 @@ describe("engine", () => {
                 "color": "red",
                 "hand": Array [
                   Object {
-                    "direction": "north",
-                    "id": "EfXLHQs6MxJRvF2iNyfPT",
-                    "num": 2,
+                    "direction": "south",
+                    "id": "qg9BHJkpArPHP56gZrf6_",
+                    "num": 3,
                   },
                   Object {
                     "direction": "west",
-                    "id": "s2Aw7KuKy-bwn09yMhGR7",
-                    "num": 2,
+                    "id": "zkwR561ksTNNyBYF3iRjW",
+                    "num": 1,
+                  },
+                  Object {
+                    "direction": "north-west",
+                    "id": "GMbjoVd6jd5A0MPR-IAia",
+                    "num": 1,
                   },
                   Object {
                     "direction": "south-west",
-                    "id": "6aawUpl9C4mPjOZaWg8RX",
+                    "id": "pM6JUcIwqrC6pXsNbhtOT",
                     "num": 2,
                   },
                   Object {
-                    "direction": "north-east",
-                    "id": "eJx9FI7WZ5bNYrWyPNK3y",
-                    "num": 2,
-                  },
-                  Object {
-                    "direction": "south-east",
-                    "id": "yYR0zm4YDXHgv-FGc9HMX",
-                    "num": 2,
+                    "direction": "east",
+                    "id": "g4sItjieWvi_QUJ7NwjMX",
+                    "num": 3,
                   },
                 ],
                 "heroCards": Array [
                   Object {
                     "color": "red",
-                    "id": "-iiqRkzkwR561ksTNNyBY",
+                    "id": "pIBGU_qMVbmiyEuFbzmjp",
                   },
                   Object {
                     "color": "red",
-                    "id": "F3iRjWTsePwPRkJ6tTm1E",
+                    "id": "koqJ34nfdFlafURvb43Ob",
                   },
                   Object {
                     "color": "red",
-                    "id": "W3wimpqRFpG_EBaLXosIa",
+                    "id": "Fu_3pQylMXiNE8M60nw0T",
                   },
                   Object {
                     "color": "red",
-                    "id": "yJTiu-GMbjoVd6jd5A0MP",
+                    "id": "9HwCM_qIKC_Z8F-WdhanD",
                   },
                 ],
-                "id": "NbhtOTB2Q3Lg1F0qm5pa1",
+                "id": "aSEX2yyJfuQpDuCtFgGGX",
                 "isBot": false,
               },
               "result": Object {
@@ -1686,14 +1993,31 @@ describe("engine", () => {
           `);
           expect(validMoves).toMatchInlineSnapshot(`
             Array [
-              "move",
+              Object {
+                "card": Object {
+                  "direction": "north-west",
+                  "id": "GMbjoVd6jd5A0MPR-IAia",
+                  "num": 1,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
+              Object {
+                "card": Object {
+                  "direction": "south-west",
+                  "id": "pM6JUcIwqrC6pXsNbhtOT",
+                  "num": 2,
+                },
+                "type": "move",
+                "withHeroCard": false,
+              },
             ]
           `);
-          engine.command({ type: "move", card: state.players[0]!.hand[0]! });
+          engine.command(validMoves[0]!);
         }
       })
       .start();
 
-    expect.assertions(15);
+    expect.assertions(20);
   });
 });

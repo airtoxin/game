@@ -5,8 +5,8 @@ import {
   PowerCard,
   setupHeroCards,
 } from "./components";
-import { nanoid } from "nanoid";
 import { PlayerBase } from "./engine";
+import { random } from "./random";
 
 export type Player = PlayerBase & {
   readonly hand: PowerCard[];
@@ -16,7 +16,7 @@ export type Player = PlayerBase & {
 
 export const setupPlayers = (hands: PowerCard[][]): readonly Player[] =>
   colors.map((color, i) => ({
-    id: nanoid(),
+    id: random.id(),
     isBot: false,
     hand: hands[i] ?? [],
     color,

@@ -1,5 +1,5 @@
 import { range } from "@game/utils";
-import { nanoid } from "nanoid";
+import { random } from "./random";
 
 export const colors = ["red", "white"] as const;
 export type Color = typeof colors[number];
@@ -24,7 +24,7 @@ export type PowerCard = {
 
 export const allPowerCards: PowerCard[] = directions.flatMap((direction) =>
   range(3, 1).map((num) => ({
-    id: nanoid(),
+    id: random.id(),
     direction,
     num,
   }))
@@ -37,7 +37,7 @@ export type HeroCard = {
 
 export const setupHeroCards = (color: Color): HeroCard[] =>
   range(4).map(() => ({
-    id: nanoid(),
+    id: random.id(),
     color,
   }));
 

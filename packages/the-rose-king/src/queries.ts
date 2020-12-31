@@ -26,14 +26,14 @@ export const getNextCrownPosition = (
   return produce(state.board.crownPosition, (draft) => {
     if (["north", "north-west", "north-east"].includes(card.direction)) {
       draft.y -= card.num;
-    } else {
-      // south
+    }
+    if (["south", "south-west", "south-east"].includes(card.direction)) {
       draft.y += card.num;
     }
     if (["west", "north-west", "south-west"].includes(card.direction)) {
       draft.x -= card.num;
-    } else {
-      // east
+    }
+    if (["east", "north-east", "south-east"].includes(card.direction)) {
       draft.x += card.num;
     }
   });
@@ -60,7 +60,7 @@ export const getPlayableCards = (
     if (cell === undefined) return []; // Invalid range
     if (cell === null) return [{ card, withHeroCard: false as boolean }]; // Empty cell
 
-    // Move with HeroCard
+    // Move with HeroCard if cell is non-empty
     return cell.color !== activePlayer.color &&
       activePlayer.heroCards.length > 0
       ? [{ card, withHeroCard: true as boolean }]

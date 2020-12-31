@@ -1,4 +1,5 @@
 import MersenneTwister from "mersenne-twister";
+import { range } from "./Array";
 
 export class Random {
   private rng: MersenneTwister;
@@ -32,5 +33,13 @@ export class Random {
       arr[r] = tmp;
     }
     return arr;
+  }
+
+  private _idstr =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
+  id(): string {
+    return range(21)
+      .map(() => this._idstr[this.rangeInt(0, this._idstr.length - 1)])
+      .join("");
   }
 }

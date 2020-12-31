@@ -74,3 +74,20 @@ describe("Random#shuffle", () => {
     }
   });
 });
+
+describe("Random#id", () => {
+  it("should return random 21 strings", () => {
+    const random = new Random();
+    for (let i = 0; i < 10000; i++) {
+      const id = random.id();
+      expect(typeof id).toBe("string");
+      expect(id.length).toBe(21);
+    }
+  });
+
+  it("should return same random value if seed is same too", () => {
+    for (let i = 0; i < 10000; i++) {
+      expect(new Random(20443987).id()).toEqual(new Random(20443987).id());
+    }
+  });
+});

@@ -14,11 +14,11 @@ export type Player = PlayerBase & {
   readonly heroCards: HeroCard[];
 };
 
-export const setupPlayers = (): readonly Player[] =>
-  colors.map((color) => ({
+export const setupPlayers = (hands: PowerCard[][]): readonly Player[] =>
+  colors.map((color, i) => ({
     id: nanoid(),
     isBot: false,
-    hand: [] as PowerCard[],
+    hand: hands[i] ?? [],
     color,
     heroCards: setupHeroCards(color),
   }));

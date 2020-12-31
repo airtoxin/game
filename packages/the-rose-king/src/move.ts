@@ -5,11 +5,12 @@ import { Player } from "./player";
 import invariant from "tiny-invariant";
 import { assertUnreachable } from "@game/utils";
 import { GameState } from "./game";
+import { GameResult } from "./result";
 
 export const move = (
   state: GameState,
   command: GameCommand,
-  ctx: GameContext<Player>
+  ctx: GameContext<Player, GameResult>
 ): GameState =>
   produce(state, (draft) => {
     switch (command.type) {

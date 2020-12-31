@@ -48,11 +48,11 @@ export type Marker = {
 
 export type BoardCell = Marker | null;
 export type Board = {
-  state: BoardCell[][];
+  grid: BoardCell[][];
   crownPosition: { x: number; y: number };
 };
 
 export const setupBoard = (): Board => ({
-  state: range(9).map(() => range(9).map(() => null)),
+  grid: range(9).map(() => range(9).map(() => null)),
   crownPosition: { x: 4, y: 4 },
 });

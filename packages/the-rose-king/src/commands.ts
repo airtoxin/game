@@ -6,6 +6,7 @@ export type GameCommand = ReturnType<
   | typeof drawCommand
   | typeof passCommand
 >;
+export type GameCommandType = GameCommand["type"];
 
 const moveCommand = (card: PowerCard) => ({
   type: "move" as const,

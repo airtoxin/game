@@ -34,7 +34,7 @@ export const getPlayableCards = (game: LostCities): PlayableCard[] => {
       ];
     invariant(
       lastPlayedCard,
-      "Unexpected state: lastPlayedCard must not be undefined."
+      "Unexpected grid: lastPlayedCard must not be undefined."
     );
     if (lastPlayedCard.type === "wager") return true;
     return card.type === "number" && card.number > lastPlayedCard.number;

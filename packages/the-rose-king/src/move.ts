@@ -6,6 +6,7 @@ import invariant from "tiny-invariant";
 import { assertUnreachable } from "@game/utils";
 import { GameState } from "./game";
 import { GameResult } from "./result";
+import { random } from "./random";
 
 export const move = (
   state: GameState,
@@ -56,7 +57,16 @@ export const move = (
           default:
             assertUnreachable(card.direction);
         }
+
+        draft.board.grid[draft.board.crownPosition.y]![
+          draft.board.crownPosition.x
+        ] = {
+          id: random.id(),
+          color: ctx.activePlayer.color,
+        };
+        draft.numMarkers -= 1;
         draft.discardPile.push(card);
+
         break;
       }
       case "moveWithHero": {

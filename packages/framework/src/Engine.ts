@@ -1,7 +1,6 @@
 import {
   GameCommandBase,
   GameContext,
-  GameResultBase,
   GameStateBase,
   PlayerBase,
 } from "./types";
@@ -14,7 +13,7 @@ export type EngineOptions<
   TGameState extends GameStateBase<TPlayer>,
   TGameCommandType extends string,
   TGameCommand extends GameCommandBase<TGameCommandType>,
-  TGameResult extends GameResultBase
+  TGameResult
 > = {
   setup(): TGameState;
   move(
@@ -26,13 +25,13 @@ export type EngineOptions<
     state: TGameState,
     ctx: GameContext<TPlayer, TGameResult>
   ): readonly TGameCommand[];
-  isFinished(): TGameResult;
+  isFinished(): null | TGameResult;
 };
 
 export type EngineEvents<
   TGameCommandType extends string,
   TGameCommand extends GameCommandBase<TGameCommandType>,
-  TGameResult extends GameResultBase
+  TGameResult
 > = {
   change: (command: TGameCommand) => void;
 };
@@ -44,7 +43,7 @@ export class Engine<
   TGameCommand extends {
     readonly type: TGameCommandType | "@@framework@@init@@";
   },
-  TGameResult extends GameResultBase
+  TGameResult
 > {
   private ee: StrictEventEmitter<
     EventEmitter,

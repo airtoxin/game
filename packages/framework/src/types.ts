@@ -11,14 +11,7 @@ export type GameCommandBase<TGameCommandType extends string> = {
   readonly type: TGameCommandType | "@@framework@@init@@";
 };
 
-export type GameResultBase = {
-  readonly finished: boolean;
-};
-
-export type GameContext<
-  TPlayer extends PlayerBase,
-  TGameResult extends GameResultBase
-> = {
+export type GameContext<TPlayer extends PlayerBase, TGameResult> = {
   readonly activePlayer: TPlayer;
-  readonly result: TGameResult;
+  readonly result: null | TGameResult;
 };

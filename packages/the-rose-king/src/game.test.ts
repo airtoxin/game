@@ -355,9 +355,7 @@ describe("engine", () => {
                 "id": "aSEX2yyJfuQpDuCtFgGGX",
                 "isBot": false,
               },
-              "result": Object {
-                "finished": false,
-              },
+              "result": null,
             }
           `);
           expect(validMoves).toMatchInlineSnapshot(`
@@ -766,9 +764,7 @@ describe("engine", () => {
                 "id": "X0lt0TpNkvKyYYW45C_x_",
                 "isBot": false,
               },
-              "result": Object {
-                "finished": false,
-              },
+              "result": null,
             }
           `);
           expect(validMoves).toMatchInlineSnapshot(`
@@ -1175,9 +1171,7 @@ describe("engine", () => {
                 "id": "aSEX2yyJfuQpDuCtFgGGX",
                 "isBot": false,
               },
-              "result": Object {
-                "finished": false,
-              },
+              "result": null,
             }
           `);
           expect(validMoves).toMatchInlineSnapshot(`
@@ -1554,9 +1548,7 @@ describe("engine", () => {
                 "id": "X0lt0TpNkvKyYYW45C_x_",
                 "isBot": false,
               },
-              "result": Object {
-                "finished": false,
-              },
+              "result": null,
             }
           `);
           expect(validMoves).toMatchInlineSnapshot(`
@@ -1947,9 +1939,7 @@ describe("engine", () => {
                 "id": "aSEX2yyJfuQpDuCtFgGGX",
                 "isBot": false,
               },
-              "result": Object {
-                "finished": false,
-              },
+              "result": null,
             }
           `);
           expect(validMoves).toMatchInlineSnapshot(`

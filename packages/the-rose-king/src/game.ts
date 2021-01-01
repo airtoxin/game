@@ -1,10 +1,9 @@
 import { Player, setupPlayers } from "./player";
 import { allPowerCards, Board, PowerCard, setupBoard } from "./components";
-import { EngineOptions, GameStateBase } from "@game/framework";
-import { GameCommand, GameCommandType, execCommand } from "./commands";
+import { Engine, EngineOptions, GameStateBase } from "@game/framework";
+import { execCommand, GameCommand, GameCommandType } from "./commands";
 import { random } from "./random";
 import { getValidMoves } from "./queries";
-import { Engine } from "@game/framework";
 
 export type GameState = GameStateBase<Player> & {
   readonly numMarkers: number;
@@ -14,9 +13,8 @@ export type GameState = GameStateBase<Player> & {
 };
 
 export type GameResult =
-  | { finished: false }
-  | { finished: true; draw: true }
-  | { finished: true; draw: false; winner: Player; loser: Player };
+  | { draw: true }
+  | { draw: false; winner: Player; loser: Player };
 
 export const engineOptions: EngineOptions<
   Player,
@@ -34,7 +32,7 @@ export const engineOptions: EngineOptions<
   },
   // TODO
   isFinished() {
-    return { finished: false };
+    return null;
   },
 };
 

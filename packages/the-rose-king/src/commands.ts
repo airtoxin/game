@@ -1,8 +1,7 @@
 import { getNextCrownPosition, PlayableCard } from "./queries";
-import { GameState } from "./game";
+import { GameResult, GameState } from "./game";
 import { GameContext } from "@game/framework";
 import { Player } from "./player";
-import { GameResult } from "./result";
 import produce from "immer";
 import { random } from "./random";
 import invariant from "tiny-invariant";
@@ -26,7 +25,7 @@ export const passCommand = () => ({
   type: "pass" as const,
 });
 
-export const move = (
+export const execCommand = (
   state: GameState,
   command: GameCommand,
   ctx: GameContext<Player, GameResult>

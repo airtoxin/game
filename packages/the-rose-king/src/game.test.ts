@@ -18,7 +18,6 @@ describe("engine", () => {
           `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
                   "x": 4,
@@ -426,7 +425,6 @@ describe("engine", () => {
           `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
                   "x": 6,
@@ -838,7 +836,6 @@ describe("engine", () => {
           `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
                   "x": 7,
@@ -1218,7 +1215,6 @@ describe("engine", () => {
           `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
                   "x": 7,
@@ -1607,7 +1603,6 @@ describe("engine", () => {
           `);
           expect(state).toMatchInlineSnapshot(`
             Object {
-              "activePlayerId": "aSEX2yyJfuQpDuCtFgGGX",
               "board": Object {
                 "crownPosition": Object {
                   "x": 7,

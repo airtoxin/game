@@ -1,8 +1,7 @@
 import { Player, setupPlayers } from "./player";
 import { allPowerCards, Board, PowerCard, setupBoard } from "./components";
 import { EngineOptions, GameStateBase } from "@game/framework";
-import { GameCommand, GameCommandType, move } from "./commands";
-import { GameResult } from "./result";
+import { GameCommand, GameCommandType, execCommand } from "./commands";
 import { random } from "./random";
 import { getValidMoves } from "./queries";
 import { Engine } from "@game/framework";
@@ -14,6 +13,11 @@ export type GameState = GameStateBase<Player> & {
   readonly discardPile: readonly PowerCard[];
 };
 
+export type GameResult =
+  | { finished: false }
+  | { finished: true; draw: true }
+  | { finished: true; draw: false; winner: Player; loser: Player };
+
 export const engineOptions: EngineOptions<
   Player,
   GameState,
@@ -22,18 +26,9 @@ export const engineOptions: EngineOptions<
   GameResult
 > = {
   setup() {
-    const cards = random.shuffle(allPowerCards);
-    const players = setupPlayers([cards.slice(0, 5), cards.slice(5, 10)]);
-    return {
-      players,
-      activePlayerId: players[0]!.id,
-      numMarkers: 52,
-      board: setupBoard(),
-      deck: cards.slice(10),
-      discardPile: [],
-    };
+    return setupGameState();
   },
-  move,
+  move: execCommand,
   getValidMoves(state, ctx) {
     return getValidMoves(state, ctx.activePlayer);
   },
@@ -41,6 +36,18 @@ export const engineOptions: EngineOptions<
   isFinished() {
     return { finished: false };
   },
+};
+
+export const setupGameState = (): GameState => {
+  const cards = random.shuffle(allPowerCards);
+  const players = setupPlayers([cards.slice(0, 5), cards.slice(5, 10)]);
+  return {
+    players,
+    numMarkers: 52,
+    board: setupBoard(),
+    deck: cards.slice(10),
+    discardPile: [],
+  };
 };
 
 export const engine = new Engine(engineOptions);

@@ -5,7 +5,7 @@ import {
   PowerCard,
   setupHeroCards,
 } from "./components";
-import { PlayerBase } from "./engine";
+import { PlayerBase } from "@game/framework";
 import { random } from "./random";
 
 export type Player = PlayerBase & {

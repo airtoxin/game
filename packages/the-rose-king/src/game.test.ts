@@ -1,39 +1,5 @@
-import { Player, setupPlayers } from "./player";
-import { GameState } from "./game";
-import { GameCommand, GameCommandType, move } from "./commands";
-import { GameResult } from "./result";
-import { allPowerCards, setupBoard } from "./components";
-import { getValidMoves } from "./queries";
-import { random } from "./random";
-import { Engine, EngineOptions } from "@game/framework";
-
-const engineOptions: EngineOptions<
-  Player,
-  GameState,
-  GameCommandType,
-  GameCommand,
-  GameResult
-> = {
-  setup() {
-    const cards = random.shuffle(allPowerCards);
-    const players = setupPlayers([cards.slice(0, 5), cards.slice(5, 10)]);
-    return {
-      players,
-      activePlayerId: players[0]!.id,
-      numMarkers: 52,
-      board: setupBoard(),
-      deck: cards.slice(10),
-      discardPile: [],
-    };
-  },
-  move,
-  getValidMoves(state, ctx) {
-    return getValidMoves(state, ctx.activePlayer);
-  },
-  isFinished() {
-    return { finished: false };
-  },
-};
+import { engineOptions } from "./game";
+import { Engine } from "@game/framework";
 
 describe("engine", () => {
   it("test", async () => {

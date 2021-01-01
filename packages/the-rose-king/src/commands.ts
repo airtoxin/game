@@ -1,6 +1,6 @@
 import { getNextCrownPosition, PlayableCard } from "./queries";
 import { GameState } from "./game";
-import { GameContext } from "./engine";
+import { GameContext } from "@game/framework";
 import { Player } from "./player";
 import { GameResult } from "./result";
 import produce from "immer";
@@ -9,16 +9,9 @@ import invariant from "tiny-invariant";
 import { assertUnreachable } from "@game/utils";
 
 export type GameCommand = ReturnType<
-  | typeof initCommand
-  | typeof moveCommand
-  | typeof drawCommand
-  | typeof passCommand
+  typeof moveCommand | typeof drawCommand | typeof passCommand
 >;
 export type GameCommandType = GameCommand["type"];
-
-export const initCommand = () => ({
-  type: "init" as const,
-});
 
 export const moveCommand = (playableCard: PlayableCard) => ({
   type: "move" as const,
@@ -40,9 +33,6 @@ export const move = (
 ): GameState =>
   produce(state, (draft) => {
     switch (command.type) {
-      case "init": {
-        break;
-      }
       case "move": {
         draft.board.crownPosition = getNextCrownPosition(state, command.card);
         const draftActivePlayer = draft.players.find(

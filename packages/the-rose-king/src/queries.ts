@@ -67,3 +67,16 @@ export const getPlayableCards = (
       : [];
   });
 };
+
+export type PlayerScore = {
+  readonly player: Player;
+  readonly score: number;
+};
+export const getScore = (state: GameState): PlayerScore[] => {
+  return state.players.map((player) => {
+    return {
+      player,
+      score: 0,
+    };
+  });
+};

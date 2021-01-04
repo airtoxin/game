@@ -3,7 +3,7 @@ import { allPowerCards, Board, PowerCard, setupBoard } from "./components";
 import { Engine, EngineOptions, GameStateBase } from "@game/framework";
 import { execCommand, GameCommand, GameCommandType } from "./commands";
 import { random } from "./random";
-import { getValidMoves } from "./queries";
+import { getScore, getValidMoves } from "./queries";
 
 export type GameState = GameStateBase<Player> & {
   readonly numMarkers: number;
@@ -30,8 +30,24 @@ export const engineOptions: EngineOptions<
   getValidMoves(state, ctx) {
     return getValidMoves(state, ctx.activePlayer);
   },
-  // TODO
-  isFinished() {
+  isFinished(state, _ctx) {
+    const noMoves = state.players.every((player) => {
+      const validMoves = getValidMoves(state, player);
+      return validMoves.length === 1 && validMoves[0]?.type === "pass";
+    });
+
+    if (noMoves || state.numMarkers === 0) {
+      const playerScores = getScore(state);
+      if (playerScores[0]!.score === playerScores[1]!.score)
+        return { draw: true };
+      let winner = playerScores[0]!.player;
+      let loser = playerScores[1]!.player;
+      if (playerScores[0]!.score < playerScores[1]!.score) {
+        [loser, winner] = [winner, loser];
+      }
+      return { draw: false, winner, loser };
+    }
+
     return null;
   },
 };

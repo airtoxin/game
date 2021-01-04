@@ -25,7 +25,11 @@ export type EngineOptions<
     state: TGameState,
     ctx: GameContext<TPlayer, TGameResult>
   ): readonly TGameCommand[];
-  isFinished(): null | TGameResult;
+  // TODO: argument
+  isFinished(
+    state: TGameState,
+    ctx: GameContext<TPlayer, TGameResult>
+  ): null | TGameResult;
 };
 
 export type EngineEvents<
@@ -69,9 +73,13 @@ export class Engine<
       activePlayer,
       `Index out of range activePlayerIndex: ${this.activePlayerIndex}`
     );
-    return {
+    const contextWithoutResult = {
       activePlayer,
-      result: this.engineOptions.isFinished(),
+      result: null,
+    };
+    return {
+      ...contextWithoutResult,
+      result: this.engineOptions.isFinished(this.state, contextWithoutResult),
     };
   }
 

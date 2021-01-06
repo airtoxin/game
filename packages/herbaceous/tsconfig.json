@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "lib",
+    "strictNullChecks": true
+  },
+  "references": [
+    { "path": "../utils" }
+  ],
+  "include": ["src"],
+  "exclude": ["**/*.test.*"]
+}

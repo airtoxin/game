@@ -17,7 +17,7 @@
     "@game/utils": "1.0.0",
     "deepcopy": "^2.1.0",
     "immer": "^9.0.6",
-    "nanoid": "^3.1.20",
+    "nanoid": "^3.1.31",
     "tiny-invariant": "^1.1.0",
     "type-fest": "^0.20.2"
   }
